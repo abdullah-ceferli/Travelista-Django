@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from main.models import *
 from main.utils import is_message_appropriate
 from django.contrib import messages
+from ipware import get_client_ip
 # Create your views here.
 
 
@@ -18,14 +19,13 @@ def blogSingle(request):
 
 
 def contact(request):
-    contact_info = ContactInfo.objects.first()
-
     if request.method == "POST":
         name = request.POST.get("name")
         surname = request.POST.get("surname")
         email = request.POST.get("email")
         subject = request.POST.get("subject")
         message = request.POST.get("message")
+        user_img = request.FILES.get("user_img")
 
         full_content = f"{subject} {message}"
 
@@ -39,20 +39,22 @@ def contact(request):
                 "message": message,
             })
 
+        client_ip, is_routable = get_client_ip(request)
+
         UserMessage.objects.create(
             name=name,
             surname=surname,
             email=email,
             subject=subject,
-            message=message
+            message=message,
+            user_img=user_img,
+            user_ip=client_ip
         )
 
         messages.success(request, "Thank you! Your message has been sent.")
         return redirect('index')
 
-    return render(request, 'pages/contact.html', {
-        "contact_info": contact_info
-    })
+    return render(request, 'pages/contact.html')
 
 
 def elements(request):
