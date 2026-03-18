@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div id="content-main">
+    {% if trashed_files %}
+    <form method="POST" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        <p>You have <strong>{{ trashed_files|length }}</strong> unused files taking up space.</p>
+        <button type="submit" name="delete_all" class="button" style="background-color: #ba2121; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            Empty Trash Bin (Permanently Delete All)
+        </button>
+    </form>
+
+    <div class="module" id="changelist">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px;">File Name</th>
+                    <th style="padding: 8px;">File Size (KB)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in trashed_files %}
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td style="padding: 8px;">{{ file.name }}</td>
+                    <td style="padding: 8px;">{{ file.size }} KB</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>The trash bin is currently empty. Good job keeping your project clean!</p>
+    {% endif %}
+</div>
+{% endblock %}
