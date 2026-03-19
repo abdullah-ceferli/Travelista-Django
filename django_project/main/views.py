@@ -1,12 +1,10 @@
 from django.shortcuts import redirect, render
-from main.models import * 
+from main.models import *
 from main.utils import is_message_appropriate
 from django.contrib import messages
 from ipware import get_client_ip
 import math
 # Create your views here.
-
-
 
 
 def index(request):
@@ -28,8 +26,6 @@ def index(request):
     return render(request, 'pages/index.html', data)
 
 
-
-
 def about(request):
     messages = UserMessage.objects.filter(check_box=True).order_by('-id')[:8]
     count = len(messages)
@@ -49,11 +45,21 @@ def about(request):
 
 
 def packages(request):
-    return render(request, 'pages/packages.html')
+    destinations_list = Destinations.objects.prefetch_related(
+        'destinationsamenity_set__amenity').all()
+
+    data = {'destinations_list': destinations_list, }
+
+    return render(request, 'pages/packages.html', data)
+
 
 def hotels(request):
-    hotel_list = Hotel.objects.prefetch_related('hotelamenity_set__amenity').all()
-    return render(request, 'pages/hotels.html', {'hotel_list': hotel_list})
+    hotel_list = Hotel.objects.prefetch_related(
+        'hotelamenity_set__amenity').all()
+
+    data = {'hotel_list': hotel_list, }
+
+    return render(request, 'pages/hotels.html', data)
 
 
 def blogHome(request):
@@ -61,6 +67,8 @@ def blogHome(request):
 
 
 def blogSingle(request):
+
+    
     return render(request, 'pages/blog-single.html')
 
 
@@ -107,7 +115,6 @@ def contact(request):
 
 def elements(request):
     return render(request, 'pages/elements.html')
-
 
 
 def insurance(request):

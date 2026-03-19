@@ -1,3 +1,5 @@
+from pyexpat import model
+
 from django.db import models
 
 # Create your models here.
@@ -35,7 +37,7 @@ class UserMessage(models.Model):
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"
 
-
+# hotels model
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -68,3 +70,28 @@ class HotelAmenity(models.Model):
 
     def __str__(self):
         return f"{self.hotel.name} - {self.amenity.name}"
+
+
+# destinations models
+class Destinations(models.Model):
+    name = models.CharField(max_length=30)
+    location = models.CharField(max_length=30)
+    destinations_img = models.ImageField(
+        upload_to='destinations_images/', null=True, blank=True)
+    price_per_person = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+    amenities = models.ManyToManyField(Amenity, through='DestinationsAmenity', related_name='destinations')
+
+    def __str__(self):
+        return self.name
+    
+class DestinationsAmenity(models.Model):
+    destination = models.ForeignKey(Destinations, on_delete=models.CASCADE)
+    amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
+    text = models.CharField(
+        max_length=50, default="", verbose_name="Available Text")
+
+    def __str__(self):
+        return f"{self.destination.name} - {self.amenity.name}"
+    

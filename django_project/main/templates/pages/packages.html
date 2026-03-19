@@ -167,216 +167,38 @@
                         </div>
                     </div>
                     <div class="destinations-section-cards">
+                        {% if destinations_list %}
+                        {% for item in destinations_list %}
                         <div class="destinations-section-card">
                             <div class="single-destinations">
                                 <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d1.jpg' %}" alt="">
+                                    <img src="{{ item.destinations_img.url }}" alt="{{ item.name }}">
                                 </div>
                                 <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
+                                    <h4>{{ item.name }}</h4>
                                     <p>
-                                        United staes of America
+                                        {{ item.country }}
+                                    </p>
                                     </p>
                                     <ul class="package-list">
+                                        {% for i in item.destinationsamenity_set.all %}
                                         <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
+                                            <span>{{ i.amenity.name }}</span>
+                                            <span>{{ i.text }}</span>
                                         </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
+                                        {% endfor %}
                                         <li>
                                             <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
+                                            <a href="#" class="price-btn">${{ item.price_per_person|floatformat:0 }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d2.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
-                                    <p>
-                                        United staes of America
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
-                                        </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d3.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
-                                    <p>
-                                        United staes of America
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
-                                        </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d4.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
-                                    <p>
-                                        United staes of America
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
-                                        </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d5.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
-                                    <p>
-                                        United staes of America
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
-                                        </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/destination-img/d6.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>Holiday Sea beach Blue Ocean</h4>
-                                    <p>
-                                        United staes of America
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Duration</span>
-                                            <span>06 days and 7 nights</span>
-                                        </li>
-                                        <li>
-                                            <span>Date</span>
-                                            <span>18.04.2018</span>
-                                        </li>
-                                        <li>
-                                            <span>Airport</span>
-                                            <span>Changi</span>
-                                        </li>
-                                        <li>
-                                            <span>Extras</span>
-                                            <span>All Inclusive</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+                        {% else %}
+                            <p>No destinations available.</p>
+                        {% endif %}
                     </div>
                 </div>
             </section>

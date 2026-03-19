@@ -10,8 +10,12 @@ from django.contrib import messages
 
 admin.site.register(UserMessage)
 
-class AmenityInline(admin.TabularInline):
+class HotelAmenityInline(admin.TabularInline):
     model = HotelAmenity
+    extra = 1 
+
+class DestinationAmenityInline(admin.TabularInline):
+    model = DestinationsAmenity
     extra = 1 
 
 @admin.register(Amenity)
@@ -21,7 +25,12 @@ class AmenityAdmin(admin.ModelAdmin):
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
     list_display = ['name', 'stars', 'price_per_night']
-    inlines = [AmenityInline]
+    inlines = [HotelAmenityInline] 
+
+@admin.register(Destinations)
+class DestinationsAdmin(admin.ModelAdmin):
+    list_display = ['name', 'location']
+    inlines = [DestinationAmenityInline] 
 
 @admin.register(TrashBin)
 class TrashBinAdmin(admin.ModelAdmin):
