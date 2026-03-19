@@ -1,13 +1,59 @@
 from django.shortcuts import redirect, render
-from main.models import *
+from main.models import * 
 from main.utils import is_message_appropriate
 from django.contrib import messages
 from ipware import get_client_ip
+import math
 # Create your views here.
 
 
+
+
+def index(request):
+    messages = UserMessage.objects.filter(check_box=True).order_by('-id')[:8]
+    count = len(messages)
+
+    user_messages_carusel = None
+    dot_count = 0
+
+    if count >= 4:
+        user_messages_carusel = messages
+        dot_count = math.ceil(count / 2)
+
+    data = {
+        'user_messages_carusel': user_messages_carusel,
+        'dot_count': range(dot_count),
+    }
+
+    return render(request, 'pages/index.html', data)
+
+
+
+
 def about(request):
-    return render(request, 'pages/about.html')
+    messages = UserMessage.objects.filter(check_box=True).order_by('-id')[:8]
+    count = len(messages)
+
+    user_messages_carusel = None
+    dot_count = 0
+
+    if count >= 4:
+        user_messages_carusel = messages
+        dot_count = math.ceil(count / 2)
+
+    data = {
+        'user_messages_carusel': user_messages_carusel,
+        'dot_count': range(dot_count),
+    }
+    return render(request, 'pages/about.html', data)
+
+
+def packages(request):
+    return render(request, 'pages/packages.html')
+
+def hotels(request):
+    hotel_list = Hotel.objects.prefetch_related('hotelamenity_set__amenity').all()
+    return render(request, 'pages/hotels.html', {'hotel_list': hotel_list})
 
 
 def blogHome(request):
@@ -26,6 +72,7 @@ def contact(request):
         subject = request.POST.get("subject")
         message = request.POST.get("message")
         user_img = request.FILES.get("user_img")
+        stars = request.POST.get("stars", 5)
 
         full_content = f"{subject} {message}"
 
@@ -48,7 +95,8 @@ def contact(request):
             subject=subject,
             message=message,
             user_img=user_img,
-            user_ip=client_ip
+            user_ip=client_ip,
+            stars=stars,
         )
 
         messages.success(request, "Thank you! Your message has been sent.")
@@ -61,18 +109,6 @@ def elements(request):
     return render(request, 'pages/elements.html')
 
 
-def hotels(request):
-    return render(request, 'pages/hotels.html')
-
-
-def index(request):
-
-    return render(request, 'pages/index.html')
-
 
 def insurance(request):
     return render(request, 'pages/insurance.html')
-
-
-def packages(request):
-    return render(request, 'pages/packages.html')

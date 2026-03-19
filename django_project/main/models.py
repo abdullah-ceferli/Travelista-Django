@@ -27,42 +27,44 @@ class UserMessage(models.Model):
 
     user_img = models.ImageField(
         upload_to='user_images/', null=True, blank=True)
-    
+
     user_ip = models.GenericIPAddressField(null=True, blank=True)
+
+    stars = models.PositiveSmallIntegerField(default=5)
 
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"
 
 
-class ContactInfo(models.Model):
-    location = models.CharField(max_length=25)
-
-    location2 = models.CharField(max_length=25)
-
-    phone_number = models.CharField(max_length=20)
-
-    phone_description = models.CharField(max_length=50)
-
-    email = models.EmailField(max_length=50)
-
-    email_description = models.CharField(max_length=50)
+class Amenity(models.Model):
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f"Location: {self.location}, Email: {self.email}"
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Amenities"
 
 
-class ContactInfo(models.Model):
-    location = models.CharField(max_length=25)
+class Hotel(models.Model):
+    name = models.CharField(max_length=200)
+    stars = models.PositiveSmallIntegerField(default=5)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    review_count = models.PositiveIntegerField(default=0)
+    hotel_img = models.ImageField(
+        upload_to='hotel_images/', null=True, blank=True)
 
-    location2 = models.CharField(max_length=25)
-
-    phone_number = models.CharField(max_length=20)
-
-    phone_description = models.CharField(max_length=50)
-
-    email = models.EmailField(max_length=50)
-
-    email_description = models.CharField(max_length=50)
+    amenities = models.ManyToManyField(Amenity, through='HotelAmenity', related_name='hotels')
 
     def __str__(self):
-        return f"Location: {self.location}, Email: {self.email}"
+        return self.name
+
+
+class HotelAmenity(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
+    is_available = models.BooleanField(
+        default=False, verbose_name="Available (Yes/No)")
+
+    def __str__(self):
+        return f"{self.hotel.name} - {self.amenity.name}"

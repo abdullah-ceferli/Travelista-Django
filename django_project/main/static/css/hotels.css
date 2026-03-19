@@ -153,3 +153,10 @@
     font-size: 14px;
     text-transform: uppercase ;
 }
+
+.fa-star.checked {
+    color: var(--primary-color);
+}
+.fa-star {
+    color: #ccc;
+}

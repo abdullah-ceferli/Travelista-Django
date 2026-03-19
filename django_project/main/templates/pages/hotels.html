@@ -101,318 +101,50 @@
                         </div>
                     </div>
                     <div class="popular-destinations-section-cards">
+                        {% if hotel_list %}
+                        {% for item in hotel_list %}
                         <div class="popular-destinations-section-card">
                             <div class="single-destinations">
                                 <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d1.jpg' %}" alt="">
+                                    <img src="{{ item.hotel_img.url }}" alt="{{ item.name }}">
                                 </div>
                                 <div class="details">
                                     <h4>
-                                        <span>Hilton Star Hotel</span>
+                                        <span>{{ item.name }}</span>
                                         <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
+                                            {% for i in "12345" %}
+                                            <span
+                                                class="fa fa-star {% if forloop.counter <= item.stars %}checked{% endif %}"></span>
+                                            {% endfor %}
                                         </div>
                                     </h4>
                                     <p>
-                                        View on map | 49 Reviews
+                                        View on map | {{ item.review_count }} Reviews
                                     </p>
                                     <ul class="package-list">
+                                        {% for i in item.hotelamenity_set.all %}
                                         <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
+                                            <span>{{ i.amenity.name }}</span>
+                                            <span>
+                                                {% if i.is_available %}
+                                                Yes
+                                                {% else %}
+                                                No
+                                                {% endif %}
+                                            </span>
                                         </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
+                                        {% endfor %}
+
                                         <li>
                                             <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
+                                            <a href="#" class="price-btn">${{ item.price_per_night|floatformat:0 }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d2.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>Hilton Star Hotel</span>
-                                        <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | 49 Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d3.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>Hilton Star Hotel</span>
-                                        <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | 49 Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d4.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>Hilton Star Hotel</span>
-                                        <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | 49 Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d5.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>Hilton Star Hotel</span>
-                                        <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | 49 Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{% static 'img/hotels-img/d6.jpg' %}" alt="">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>Hilton Star Hotel</span>
-                                        <div class="star">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | 49 Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        <li>
-                                            <span>Swimming pool</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Gymnesium</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Wi-fi</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Room Service</span>
-                                            <span>No</span>
-                                        </li>
-                                        <li>
-                                            <span>Air Condition</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Restaurant</span>
-                                            <span>Yes</span>
-                                        </li>
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">$250</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </section>
@@ -436,7 +168,8 @@
                             <a href="#" class="primary-btn">request custom price</a>
                         </div>
                         <div class="home-about-section-right">
-                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}" alt="">
+                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}"
+                                alt="">
                         </div>
                     </div>
                 </div>

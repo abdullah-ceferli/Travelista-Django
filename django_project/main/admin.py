@@ -10,7 +10,18 @@ from django.contrib import messages
 
 admin.site.register(UserMessage)
 
-admin.site.register(ContactInfo)
+class AmenityInline(admin.TabularInline):
+    model = HotelAmenity
+    extra = 1 
+
+@admin.register(Amenity)
+class AmenityAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(Hotel)
+class HotelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'stars', 'price_per_night']
+    inlines = [AmenityInline]
 
 @admin.register(TrashBin)
 class TrashBinAdmin(admin.ModelAdmin):

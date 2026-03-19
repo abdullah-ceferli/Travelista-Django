@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel   </title>
+    <title>Travel </title>
     <link rel="stylesheet" href="{% static 'css/own-bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -186,7 +186,8 @@
                             <div class="single-destination">
                                 <div class="thumb">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d1.jpg' %}" alt="">
+                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d1.jpg' %}"
+                                        alt="">
                                 </div>
                                 <div class="desc">
                                     <a href="#" class="price-btn">$150</a>
@@ -199,7 +200,8 @@
                             <div class="single-destination">
                                 <div class="thumb">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d2.jpg' %}" alt="">
+                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d2.jpg' %}"
+                                        alt="">
                                 </div>
                                 <div class="desc">
                                     <a href="#" class="price-btn">$250</a>
@@ -212,7 +214,8 @@
                             <div class="single-destination">
                                 <div class="thumb">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d3.jpg' %}" alt="">
+                                    <img class="img-fluid" src="{% static 'img/popular-destinations-img/d3.jpg' %}"
+                                        alt="">
                                 </div>
                                 <div class="desc">
                                     <a href="#" class="price-btn">$350</a>
@@ -423,64 +426,96 @@
                     </div>
                     <div class="testimonial-area-section-carousel">
                         <div class="testimonial-slider" id="slider">
+                            {% if user_messages_carusel %}
+                            {% for item in user_messages_carusel %}
                             <div class="testimonial-card">
-                                <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
+                                <img src="{% if item.user_img %}{{ item.user_img.url }}{% else %}img/user-img/user1.png{% endif %}"
+                                    class="testimonial-card-img">
                                 <div>
-                                    <p class="testimonial-card-text">A purpose is the eternal condition for success.
-                                        Every former smoker can tell you just how hard it is to stop smoking cigarettes.
+                                    <p class="testimonial-card-text">
+                                        {{ item.message }}
                                     </p>
-                                    <h4 class="testimonial-card-user-name">Carolyn Craig</h4>
-                                    <div class="testimonial-card-stars">★★★☆☆</div>
+                                    <h4 class="testimonial-card-user-name">{{ item.name }} {{ item.surname }}</h4>
+                                    <div class="testimonial-card-stars">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= item.stars %} ★ {% else %} ☆ {% endif %} {% endfor %}
+                                            </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="testimonial-card">
-                                <img src="{% static 'img/user-img/user2.png' %}" class="testimonial-card-img">
-                                <div>
-                                    <p class="testimonial-card-text">Do you want to be even more successful? Learn to
-                                        love learning and growth. The more effort you put into improving your skills.
-                                    </p>
-                                    <h4 class="testimonial-card-user-name">Harriet Maxwell</h4>
-                                    <div class="testimonial-card-stars">★★★★☆</div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="testimonial-card">
+                                    <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
+                                    <div>
+                                        <p class="testimonial-card-text">A purpose is the eternal condition for success.
+                                            Every former smoker can tell you just how hard it is to stop smoking
+                                            cigarettes.
+                                        </p>
+                                        <h4 class="testimonial-card-user-name">Carolyn Craig</h4>
+                                        <div class="testimonial-card-stars">★★★☆☆</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="testimonial-card">
-                                <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
-                                <div>
-                                    <p class="testimonial-card-text">Consistent action is the bridge between goals and
-                                        accomplishment. I've seen massive growth since applying these principles.</p>
-                                    <h4 class="testimonial-card-user-name">James Wilson</h4>
-                                    <div class="testimonial-card-stars">★★★★★</div>
+                                <div class="testimonial-card">
+                                    <img src="{% static 'img/user-img/user2.png' %}" class="testimonial-card-img">
+                                    <div>
+                                        <p class="testimonial-card-text">Do you want to be even more successful? Learn
+                                            to
+                                            love learning and growth. The more effort you put into improving your
+                                            skills.
+                                        </p>
+                                        <h4 class="testimonial-card-user-name">Harriet Maxwell</h4>
+                                        <div class="testimonial-card-stars">★★★★☆</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="testimonial-card">
-                                <img src="{% static 'img/user-img/user2.png' %}" class="testimonial-card-img">
-                                <div>
-                                    <p class="testimonial-card-text">The support community here is incredible. It makes
-                                        the difficult parts of career growth feel much more manageable.</p>
-                                    <h4 class="testimonial-card-user-name">Sarah Jenkins</h4>
-                                    <div class="testimonial-card-stars">★★★★☆</div>
+                                <div class="testimonial-card">
+                                    <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
+                                    <div>
+                                        <p class="testimonial-card-text">Consistent action is the bridge between goals
+                                            and
+                                            accomplishment. I've seen massive growth since applying these principles.
+                                        </p>
+                                        <h4 class="testimonial-card-user-name">James Wilson</h4>
+                                        <div class="testimonial-card-stars">★★★★★</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="testimonial-card">
-                                <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
-                                <div>
-                                    <p class="testimonial-card-text">A purpose is the eternal condition for success.
-                                        Every former smoker can tell you just how hard it is to stop smoking cigarettes.
-                                    </p>
-                                    <h4 class="testimonial-card-user-name">Carolyn Craig</h4>
-                                    <div class="testimonial-card-stars">★★★☆☆</div>
+                                <div class="testimonial-card">
+                                    <img src="{% static 'img/user-img/user2.png' %}" class="testimonial-card-img">
+                                    <div>
+                                        <p class="testimonial-card-text">The support community here is incredible. It
+                                            makes
+                                            the difficult parts of career growth feel much more manageable.</p>
+                                        <h4 class="testimonial-card-user-name">Sarah Jenkins</h4>
+                                        <div class="testimonial-card-stars">★★★★☆</div>
+                                    </div>
                                 </div>
+                                <div class="testimonial-card">
+                                    <img src="{% static 'img/user-img/user1.png' %}" class="testimonial-card-img">
+                                    <div>
+                                        <p class="testimonial-card-text">A purpose is the eternal condition for success.
+                                            Every former smoker can tell you just how hard it is to stop smoking
+                                            cigarettes.
+                                        </p>
+                                        <h4 class="testimonial-card-user-name">Carolyn Craig</h4>
+                                        <div class="testimonial-card-stars">★★★☆☆</div>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
-                        </div>
 
-                        <div class="testimonial-nav-dots" id="dotContainer">
-                            <div class="testimonial-nav-dot active"></div>
-                            <div class="testimonial-nav-dot"></div>
-                            <div class="testimonial-nav-dot"></div>
-                            <div class="testimonial-nav-dot"></div>
+                            <div class="testimonial-nav-dots" id="dotContainer">
+                                <div class="testimonial-nav-dot active"></div>
+                                {% if user_messages_carusel %}
+                                {% for item in dot_count %}
+                                <div class="testimonial-nav-dot"></div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="testimonial-nav-dot"></div>
+                                <div class="testimonial-nav-dot"></div>
+                                <div class="testimonial-nav-dot"></div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
             </secttion>
             <!-- End Testimonial Area Section -->
 
@@ -502,7 +537,8 @@
                             <a href="#" class="primary-btn">request custom price</a>
                         </div>
                         <div class="home-about-section-right">
-                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}" alt="">
+                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}"
+                                alt="">
                         </div>
                     </div>
                 </div>

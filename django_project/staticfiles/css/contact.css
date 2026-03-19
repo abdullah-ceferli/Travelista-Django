@@ -158,3 +158,8 @@
     position: absolute;
     bottom: -70px;
 }
+
+.label{
+    display: flex;
+    justify-content: start;
+}

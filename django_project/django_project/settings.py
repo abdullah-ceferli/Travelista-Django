@@ -9,7 +9,7 @@ env_path = BASE_DIR.parent / 'git' / '.env'
 load_dotenv(env_path)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key")
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
