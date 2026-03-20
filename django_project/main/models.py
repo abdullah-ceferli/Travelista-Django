@@ -12,7 +12,7 @@ class TrashBin(models.Model):
         verbose_name_plural = "Trash Bin"
 
 
-class UserMessage(models.Model):
+class UserContact(models.Model):
     name = models.CharField(max_length=100)
 
     surname = models.CharField(max_length=100)
@@ -95,3 +95,24 @@ class DestinationsAmenity(models.Model):
     def __str__(self):
         return f"{self.destination.name} - {self.amenity.name}"
     
+
+class UserMessage(models.Model):
+    name = models.CharField(max_length=100)
+
+    email = models.EmailField(max_length=150)
+
+    subject = models.CharField(max_length=200)
+
+    message = models.TextField()
+
+    check_box = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user_img = models.ImageField(
+        upload_to='user_images/', null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.email}), Created at - {self.created_at}"

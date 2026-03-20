@@ -651,7 +651,7 @@ h5 {
 
 .navigation-area-right .arrow {
     position: absolute;
-    right: 50px;
+    right: 15px;
     margin-top: 5px;
 }
 
@@ -675,7 +675,8 @@ h5 {
     padding-bottom: 30px;
 }
 
-.comments-area .comment-list.left-padding {
+.comments-area .comment-list:nth-last-child(3),
+.comments-area .comment-list:nth-last-child(4) {
     padding-left: 25px;
 }
 
@@ -815,4 +816,13 @@ h5 {
     background: transparent;
     border-color: var(--primary-color);
     color: var(--primary-color);
+}
+
+.form-group-error{
+    color: red;
+    font-size: 12px;
+    position: absolute;
+    position: relative;
+    margin-top: -30px;
+    bottom: 15px;
 }

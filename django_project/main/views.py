@@ -8,7 +8,7 @@ import math
 
 
 def index(request):
-    messages = UserMessage.objects.filter(check_box=True).order_by('-id')[:8]
+    messages = UserContact.objects.filter(check_box=True).order_by('-id')[:8]
     count = len(messages)
 
     user_messages_carusel = None
@@ -67,9 +67,47 @@ def blogHome(request):
 
 
 def blogSingle(request):
-
+    user_comments = UserMessage.objects.filter(check_box=True).order_by('-id')[:10]
     
-    return render(request, 'pages/blog-single.html')
+    comment_count = user_comments.count()
+    
+    show_default = comment_count < 5
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+        subject = request.POST.get("subject")
+        user_img = request.FILES.get("user_img")
+
+        full_content = f"{name} {email} {message}"
+
+        if not is_message_appropriate(full_content):
+            return render(request, 'pages/blog-single.html', {
+                "error": "Message blocked! Please do not use inappropriate language.",
+                "name": name,
+                "email": email,
+                "subject": subject,
+                "message": message,
+                "user_comments": user_comments,
+                "show_default": show_default,
+            })
+
+        UserMessage.objects.create(
+            name=name,
+            email=email,
+            message=message,
+            user_img=user_img,
+            subject=subject,
+        )
+
+        messages.success(request, "Thank you for your comment!")
+        return redirect('index')
+
+    return render(request, 'pages/blog-single.html', {
+        'user_comments': user_comments,
+        'show_default': show_default,
+    })
 
 
 def contact(request):
@@ -96,7 +134,7 @@ def contact(request):
 
         client_ip, is_routable = get_client_ip(request)
 
-        UserMessage.objects.create(
+        UserContact.objects.create(
             name=name,
             surname=surname,
             email=email,

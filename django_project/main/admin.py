@@ -8,29 +8,47 @@ from django.contrib import messages
 
 # Register your models here.
 
+admin.site.register(UserContact)
+
+
 admin.site.register(UserMessage)
 
 class HotelAmenityInline(admin.TabularInline):
     model = HotelAmenity
     extra = 1 
 
+
+
+
 class DestinationAmenityInline(admin.TabularInline):
     model = DestinationsAmenity
     extra = 1 
 
+
+
+
 @admin.register(Amenity)
 class AmenityAdmin(admin.ModelAdmin):
     list_display = ['name']
+
+
+
 
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
     list_display = ['name', 'stars', 'price_per_night']
     inlines = [HotelAmenityInline] 
 
+
+
+
 @admin.register(Destinations)
 class DestinationsAdmin(admin.ModelAdmin):
     list_display = ['name', 'location']
     inlines = [DestinationAmenityInline] 
+
+
+
 
 @admin.register(TrashBin)
 class TrashBinAdmin(admin.ModelAdmin):

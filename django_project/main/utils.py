@@ -2,9 +2,6 @@ import os
 import google.generativeai as genai
 from django.conf import settings
 from dotenv import load_dotenv
-import base64
-import hashlib
-from cryptography.fernet import Fernet
 from django.conf import settings
 
 load_dotenv()
@@ -66,24 +63,3 @@ def is_message_appropriate(text):
     except Exception as e:
         print(f"AI ERROR: {e}")
         return True
-
-# def get_cipher():
-#     key = hashlib.sha256(settings.SECRET_KEY.encode()).digest()
-#     return Fernet(base64.urlsafe_b64encode(key))
-
-
-# def encrypt_password(plain_text):
-#     if not plain_text:
-#         return None
-#     cipher = get_cipher()
-#     return cipher.encrypt(plain_text.encode()).decode()
-
-
-# def decrypt_password(encrypted_text):
-#     if not encrypted_text:
-#         return None
-#     cipher = get_cipher()
-#     try:
-#         return cipher.decrypt(encrypted_text.encode()).decode()
-#     except Exception:
-#         return None
