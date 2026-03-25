@@ -3,13 +3,25 @@ from main.views import *
 
 urlpatterns = [
     path('index/', index, name='index'),
-    path('contact/', contact, name='contact'),
-    path('about/', about, name='about'),
-    path('elements/', elements, name='elements'),
-    path('hotels/', hotels, name='hotels'),
-    path('insurance/', insurance, name='insurance'),
-    path('packages/', packages, name='packages'),
-    path('blog-home/', blogHome, name='blog-home'),
-    path('blog-single/', blogSingle, name='blog-single'),
-]
 
+    path('contact/', contact, name='contact'),
+
+    path('about/', about, name='about'),
+
+    path('elements/', elements, name='elements'),
+
+    path('hotels/', hotels, name='hotels'),
+
+    path('insurance/', insurance, name='insurance'),
+
+    path('packages/', packages, name='packages'),
+
+    path('blog-home/', blogHome, name='blog-home'),
+
+    path('blog-single/', blogSingle, name='blog-single'),
+
+    path('login/', login, name='login'),
+
+    path('registration/', registration, name='registration'),
+    
+]

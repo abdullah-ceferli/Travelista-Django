@@ -12,32 +12,11 @@ class TrashBin(models.Model):
         verbose_name_plural = "Trash Bin"
 
 
-class UserContact(models.Model):
-    name = models.CharField(max_length=100)
 
-    surname = models.CharField(max_length=100)
 
-    email = models.EmailField(max_length=150)
 
-    subject = models.CharField(max_length=200)
 
-    message = models.TextField()
-
-    check_box = models.BooleanField(default=False)
-
-    import_time = models.DateTimeField(auto_now_add=True, null=True)
-
-    user_img = models.ImageField(
-        upload_to='user_images/', null=True, blank=True)
-
-    user_ip = models.GenericIPAddressField(null=True, blank=True)
-
-    stars = models.PositiveSmallIntegerField(default=5)
-
-    def __str__(self):
-        return f"Name: {self.name}, Email: {self.email}"
-
-# hotels model
+#  hotels model
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -72,6 +51,9 @@ class HotelAmenity(models.Model):
         return f"{self.hotel.name} - {self.amenity.name}"
 
 
+
+
+
 # destinations models
 class Destinations(models.Model):
     name = models.CharField(max_length=30)
@@ -86,6 +68,7 @@ class Destinations(models.Model):
     def __str__(self):
         return self.name
     
+
 class DestinationsAmenity(models.Model):
     destination = models.ForeignKey(Destinations, on_delete=models.CASCADE)
     amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
@@ -94,8 +77,13 @@ class DestinationsAmenity(models.Model):
 
     def __str__(self):
         return f"{self.destination.name} - {self.amenity.name}"
-    
 
+
+
+
+
+
+# user model
 class UserMessage(models.Model):
     name = models.CharField(max_length=100)
 
@@ -107,12 +95,39 @@ class UserMessage(models.Model):
 
     check_box = models.BooleanField(default=False)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    user_img = models.ImageField(
+        upload_to='user_images/', null=True, blank=True)
+
+    pub_date = models.DateTimeField('date published', null=True, blank=True)
+
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.email}), Created at - {self.pub_date}"
+    
+
+class UserContact(models.Model):
+    name = models.CharField(max_length=100)
+
+    surname = models.CharField(max_length=100)
+
+    email = models.EmailField(max_length=150)
+
+    subject = models.CharField(max_length=200)
+
+    message = models.TextField()
+
+    check_box = models.BooleanField(default=False)
 
     user_img = models.ImageField(
         upload_to='user_images/', null=True, blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    stars = models.PositiveSmallIntegerField(default=5)
+
+    pub_date = models.DateTimeField('date published', null=True, blank=True)
+    
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} ({self.email}), Created at - {self.created_at}"
+        return f"Name: {self.name}, Email: {self.email}"
+    

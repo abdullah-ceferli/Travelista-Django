@@ -2,20 +2,20 @@ from django.shortcuts import redirect, render
 from main.models import *
 from main.utils import is_message_appropriate
 from django.contrib import messages
-from ipware import get_client_ip
 import math
+from django.utils import timezone
 # Create your views here.
 
 
 def index(request):
-    messages = UserContact.objects.filter(check_box=True).order_by('-id')[:8]
-    count = len(messages)
+    user_messages = UserContact.objects.filter(check_box=True).order_by('-id')[:8]
+    count = user_messages.count() 
 
     user_messages_carusel = None
     dot_count = 0
 
     if count >= 4:
-        user_messages_carusel = messages
+        user_messages_carusel = user_messages
         dot_count = math.ceil(count / 2)
 
     data = {
@@ -67,10 +67,11 @@ def blogHome(request):
 
 
 def blogSingle(request):
-    user_comments = UserMessage.objects.filter(check_box=True).order_by('-id')[:10]
-    
+    user_comments = UserMessage.objects.filter(
+        check_box=True).order_by('-id')[:10]
+
     comment_count = user_comments.count()
-    
+
     show_default = comment_count < 5
 
     if request.method == "POST":
@@ -132,7 +133,11 @@ def contact(request):
                 "message": message,
             })
 
-        client_ip, is_routable = get_client_ip(request)
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ipaddress = x_forwarded_for.split(',')[-1].strip()
+        else:
+            ipaddress = request.META.get('REMOTE_ADDR')
 
         UserContact.objects.create(
             name=name,
@@ -141,8 +146,9 @@ def contact(request):
             subject=subject,
             message=message,
             user_img=user_img,
-            user_ip=client_ip,
             stars=stars,
+            ip_address=ipaddress,    
+            pub_date=timezone.now()    
         )
 
         messages.success(request, "Thank you! Your message has been sent.")
@@ -157,3 +163,12 @@ def elements(request):
 
 def insurance(request):
     return render(request, 'pages/insurance.html')
+
+
+def registration(request):
+
+    return render(request, 'pages/registration.html')
+
+def login(request):
+    return render(request, 'pages/login.html')
+

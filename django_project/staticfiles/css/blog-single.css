@@ -675,10 +675,6 @@ h5 {
     padding-bottom: 30px;
 }
 
-.comments-area .comment-list.left-padding {
-    padding-left: 25px;
-}
-
 .comments-area .comment-list:nth-last-child(3),
 .comments-area .comment-list:nth-last-child(4) {
     padding-left: 25px;
@@ -784,6 +780,8 @@ h5 {
     width: 100%;
     font-size: 13px;
     color: #777777;
+    resize: none;
+    display: block;
 }
 
 .form-group {
@@ -822,7 +820,7 @@ h5 {
     color: var(--primary-color);
 }
 
-.form-group-error{
+.form-group-error {
     color: red;
     font-size: 12px;
     position: absolute;

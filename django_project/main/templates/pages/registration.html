@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel</title>
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
     <link rel="stylesheet" href="{% static 'css/own-bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'css/hotels.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
@@ -47,7 +47,7 @@
                                 <li><a href="{% url 'about' %}">About</a></li>
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
-                                <li><a href="{% url 'insurance' %}">Insurence</a></li>
+                                <li><a href="{% url 'insurance' %}">Insurance</a></li>
                                 <li class="menu-has-children"><a href="" class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
@@ -83,10 +83,10 @@
                     <div class="hero-section-main">
                         <div class="hero-section-title">
                             <h1>
-                                Hotels
+                                Insurance
                             </h1>
                             <p class="text-white link-nav"><a href="{% url 'index' %}">Home </a> <i
-                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'hotels' %}"> Hotels</a></p>
+                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'insurance' %}"> Insurance</a></p>
                         </div>
                     </div>
                 </div>
@@ -94,95 +94,7 @@
             </div>
         </header>
         <main class="main">
-            <!-- Start Popular Destinations Section -->
-            <section class="popular-destinations-section section-gap">
-                <div class="container">
-                    <div class="popular-destinations-section-txt">
-                        <div class="pb-70">
-                            <div class="title">
-                                <h1 class="h1-center">Popular Destinations</h1>
-                                <p>We all live in an age that belongs to the young at heart. Life that is becoming
-                                    extremely fast, day to.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popular-destinations-section-cards">
-                        {% if hotel_list %}
-                        {% for item in hotel_list %}
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{{ item.hotel_img.url }}" alt="{{ item.name }}">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>{{ item.name }}</span>
-                                        <div class="star">
-                                            {% for i in "12345" %}
-                                            <span
-                                                class="fa fa-star {% if forloop.counter <= item.stars %}checked{% endif %}"></span>
-                                            {% endfor %}
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | {{ item.review_count }} Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        {% for i in item.hotelamenity_set.all %}
-                                        <li>
-                                            <span>{{ i.amenity.name }}</span>
-                                            <span>
-                                                {% if i.is_available %}
-                                                Yes
-                                                {% else %}
-                                                No
-                                                {% endif %}
-                                            </span>
-                                        </li>
-                                        {% endfor %}
-
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">${{ item.price_per_night|floatformat:0 }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                            <p>No hotels available.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </section>
-            <!-- End Popular Destinations Section -->
-
-            <!-- Start Home About Section -->
-            <section class="home-about-section">
-                <div class="container-fluid">
-                    <div class="home-about-section-main">
-                        <div class="home-about-section-left">
-                            <h1>
-                                Did not find your Package? <br>
-                                Feel free to ask us. <br>
-                                We‘ll make it for you
-                            </h1>
-                            <p>
-                                inappropriate behavior is often laughed off as “boys will be boys,” women face higher
-                                conduct standards especially in the workplace. That’s why it’s crucial that, as women,
-                                our behavior on the job is beyond reproach. inappropriate behavior is often laughed.
-                            </p>
-                            <a href="#" class="primary-btn">request custom price</a>
-                        </div>
-                        <div class="home-about-section-right">
-                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}"
-                                alt="">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- End Home About Section -->
+            
         </main>
         <footer class="footer section-gap">
             <div class="container">
@@ -252,7 +164,7 @@
                                 <li><img src="{% static 'img/footer-img/i4.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i5.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i6.jpg' %}" alt=""></li>
-                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt=""></li>
+                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt="">
                                 <li><img src="{% static 'img/footer-img/i8.jpg' %}" alt=""></li>
                             </ul>
                         </div>
@@ -273,7 +185,7 @@
             </div>
         </footer>
     </div>
-    <script src="{% static 'js/hotels.js' %}"></script>
+    <script src="{% static 'js/registration.js' %}"></script>
 </body>
 
 </html>
