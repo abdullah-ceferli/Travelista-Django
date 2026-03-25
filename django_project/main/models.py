@@ -131,3 +131,19 @@ class UserContact(models.Model):
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"
     
+
+class SignUp(models.Model):
+    username = models.CharField(max_length=100)
+
+    email = models.EmailField(max_length=150)
+
+    password = models.CharField(max_length=200)
+
+    phone = models.CharField(max_length=20)
+
+    pub_date = models.DateTimeField('date published', null=True, blank=True)
+    
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.username} ({self.email})"

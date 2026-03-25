@@ -13,6 +13,8 @@ admin.site.register(UserContact)
 
 admin.site.register(UserMessage)
 
+admin.site.register(SignUp)
+
 class HotelAmenityInline(admin.TabularInline):
     model = HotelAmenity
     extra = 1 

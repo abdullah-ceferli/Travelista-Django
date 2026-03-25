@@ -88,3 +88,4 @@ def decrypt_password(encrypted_text):
         return cipher.decrypt(encrypted_text.encode()).decode()
     except Exception:
         return None
+

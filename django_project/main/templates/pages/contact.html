@@ -48,14 +48,20 @@
                                 <li><a href="{% url 'about' %}">About</a></li>
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
-                                <li><a href="{% url 'insurance' %}">Insurence</a></li>
-                                <li class="menu-has-children"><a href="#" class="sf-with-ul">Blog</a>
+                                <li><a href="{% url 'insurance' %}">Insurance</a></li>
+                                <li class="menu-has-children"><a href="{% url 'profile' %}" class="sf-with-ul">Profile</a>
+                                    <ul>
+                                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                                        <li><a href="{% url 'auth_page' %}">Auth Page</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-has-children"><a href="{% url 'blog-home' %}" class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
                                         <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="#" class="sf-with-ul">Pages</a>
+                                <li class="menu-has-children"><a href="{% url 'elements' %}" class="sf-with-ul">Pages</a>
                                     <ul>
                                         <li><a href="{% url 'elements' %}">Elements</a></li>
                                         <li class="menu-has-children"><a href="" class="sf-with-ul">Level 2 </a>
@@ -64,12 +70,6 @@
                                                 <li><a href="#">Item Two</a></li>
                                             </ul>
                                         </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-has-children"><a href="" class="sf-with-ul">Sign Up</a>
-                                    <ul>
-                                        <li><a href="{% url 'login' %}">Login</a></li>
-                                        <li><a href="{% url 'registration' %}">Registration</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{% url 'contact' %}">Contact</a></li>

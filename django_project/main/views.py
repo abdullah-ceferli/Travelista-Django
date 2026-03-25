@@ -4,6 +4,10 @@ from main.utils import is_message_appropriate
 from django.contrib import messages
 import math
 from django.utils import timezone
+import random
+from django.core.mail import send_mail
+from email_validator import validate_email, EmailNotValidError
+from main.utils import encrypt_password, decrypt_password
 # Create your views here.
 
 
@@ -164,11 +168,77 @@ def elements(request):
 def insurance(request):
     return render(request, 'pages/insurance.html')
 
+def profile(request):
+    return render(request, 'pages/profile.html')
 
-def registration(request):
 
-    return render(request, 'pages/registration.html')
+def auth_page(request):
+    if request.method == "POST":
+        form_type = request.POST.get("form_type")
 
-def login(request):
-    return render(request, 'pages/login.html')
+        if form_type == "signup":
+            username = request.POST.get("username")
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            phone = request.POST.get("phone")
 
+            if SignUp.objects.filter(username=username).exists():
+                return render(request, "pages/auth_page.html", {"error": "Username already taken."})
+
+            if SignUp.objects.filter(email=email).exists():
+                return render(request, "pages/auth_page.html", {"error": "Email already registered."})
+
+            try:
+                email_info = validate_email(email, check_deliverability=True)
+                email = email_info.normalized
+            except EmailNotValidError as e:
+                return render(request, "pages/auth_page.html", {"error": str(e)})
+
+            code = str(random.randint(100000, 999999))
+            try:
+                send_mail(
+                    'Your Verification Code',
+                    f'Your code is: {code}',
+                    'speedwagerreal2@gmail.com',
+                    [email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"SMTP Error: {e}")
+                return render(request, "pages/auth_page.html", {"error": "We couldn't send the code. Please check your email address."})
+
+            secure_password = encrypt_password(password)
+            request.session['temp_user'] = {
+                'username': username,
+                'email': email,
+                'phone': phone,
+                'password': secure_password,
+                'code': code
+            }
+            return redirect('verify_page')
+
+    return render(request, "pages/auth_page.html")
+
+
+def verify_page(request):
+    temp_data = request.session.get('temp_user')
+
+    if not temp_data:
+        return redirect('auth_page')
+
+    if request.method == "POST":
+        user_code = request.POST.get("code")
+
+        if temp_data['code'] == user_code:
+            SignUp.objects.create(
+                username=temp_data['username'],
+                email=temp_data['email'],
+                phone=temp_data['phone'],
+                password=temp_data['password']
+            )
+            del request.session['temp_user']
+            return render(request, "pages/auth_page.html", {"success": "Account Verified and Created!"})
+        else:
+            return render(request, "pages/verify.html", {"error": "Wrong code!"})
+
+    return render(request, "pages/verify.html")

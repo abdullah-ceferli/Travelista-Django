@@ -20,8 +20,9 @@ urlpatterns = [
 
     path('blog-single/', blogSingle, name='blog-single'),
 
-    path('login/', login, name='login'),
+    path('auth_page/', auth_page, name='auth_page'),
 
-    path('registration/', registration, name='registration'),
-    
+    path('profile/', profile, name='profile'),
+
+    path('verify_page/', verify_page, name='verify_page'),
 ]

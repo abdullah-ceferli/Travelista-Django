@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel</title>
-    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/own-bootstrap.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -48,13 +48,19 @@
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
                                 <li><a href="{% url 'insurance' %}">Insurance</a></li>
-                                <li class="menu-has-children"><a href="" class="sf-with-ul">Blog</a>
+                                <li class="menu-has-children"><a href="{% url 'profile' %}" class="sf-with-ul">Profile</a>
+                                    <ul>
+                                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                                        <li><a href="{% url 'auth_page' %}">Auth Page</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-has-children"><a href="{% url 'blog-home' %}" class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
                                         <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="" class="sf-with-ul">Pages</a>
+                                <li class="menu-has-children"><a href="{% url 'elements' %}" class="sf-with-ul">Pages</a>
                                     <ul>
                                         <li><a href="{% url 'elements' %}">Elements</a></li>
                                         <li class="menu-has-children"><a href="" class="sf-with-ul">Level 2 </a>
@@ -63,12 +69,6 @@
                                                 <li><a href="#">Item Two</a></li>
                                             </ul>
                                         </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-has-children"><a href="" class="sf-with-ul">Sign Up</a>
-                                    <ul>
-                                        <li><a href="{% url 'login' %}">Login</a></li>
-                                        <li><a href="{% url 'registration' %}">Registration</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -83,10 +83,10 @@
                     <div class="hero-section-main">
                         <div class="hero-section-title">
                             <h1>
-                                Insurance
+                                Profile
                             </h1>
                             <p class="text-white link-nav"><a href="{% url 'index' %}">Home </a> <i
-                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'insurance' %}"> Insurance</a></p>
+                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'profile' %}"> Profile </a>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
             </div>
         </footer>
     </div>
-    <script src="{% static 'js/registration.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
 </body>
 
 </html>

@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/auth_page.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-section">
+            <div class="image-content">
+                <h2>Explore<br>The World</h2>
+                <p>Your next great adventure starts right here.</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="top-nav">
+                <a href="{% url 'index' %}">← Back</a>
+            </div>
+            
+            {% if error %}<div class="msg error">{{ error }}</div>{% endif %}
+            {% if success %}<div class="msg success">{{ success }}</div>{% endif %}
+
+            <div class="form-wrapper active" id="signup-form">
+                <h3>Create Account</h3>
+                <p class="toggle-text">Already a member? <span onclick="toggleForm()">Log In</span></p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="signup">
+                    <input type="text" name="username" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="number" name="phone" placeholder="Phone Number" required>
+                    <input type="password" name="password" placeholder="Create Password" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+
+            <div class="form-wrapper" id="login-form">
+                <h3>Welcome Back</h3>
+                <p class="toggle-text">New here? <span onclick="toggleForm()">Sign Up</span></p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="login">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/auth_page.js' %}"></script>
+</body>
+
+</html>
