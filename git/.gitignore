@@ -1,6 +1,5 @@
 # Secrets
 .env
-.tunel-console
 
 # Python
 __pycache__/
