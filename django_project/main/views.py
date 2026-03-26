@@ -242,3 +242,15 @@ def verify_page(request):
             return render(request, "pages/verify.html", {"error": "Wrong code!"})
 
     return render(request, "pages/verify.html")
+
+
+def create_google_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if not SignUp.objects.filter(email=instance.email).exists():
+            SignUp.objects.create(
+                username=instance.username,
+                email=instance.email,
+                password="GOOGLE_AUTH_USER", 
+                phone="N/A",               
+                pub_date=timezone.now()
+            )

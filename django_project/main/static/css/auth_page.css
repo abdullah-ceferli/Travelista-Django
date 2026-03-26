@@ -73,6 +73,7 @@ body {
     justify-content: center;
     background: #fff;
     position: relative;
+    margin-bottom: -1%;
 }
 
 .top-nav {
@@ -229,4 +230,48 @@ button:hover {
         top: 20px;
         left: 30px;
     }
+}
+
+.google-btn {
+    width: 100%;
+    padding: 16px;
+    background: white;
+    color: black;
+    border: black;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+}
+
+.google-btn:hover {
+    background: wheat;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+
+}
+
+span{
+    text-decoration: none;
 }

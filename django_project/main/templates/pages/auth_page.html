@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +24,7 @@
             <div class="top-nav">
                 <a href="{% url 'index' %}">← Back</a>
             </div>
-            
+
             {% if error %}<div class="msg error">{{ error }}</div>{% endif %}
             {% if success %}<div class="msg success">{{ success }}</div>{% endif %}
 
@@ -39,6 +40,10 @@
                     <input type="password" name="password" placeholder="Create Password" required>
                     <button type="submit">Sign Up</button>
                 </form>
+                <a href="{% provider_login_url 'google' %}" class="google-btn">
+                    <img src="{% static 'img/auth-page/google-img.svg' %}" alt="Google logo">
+                    <span>Sign Up with Google</span>
+                </a>
             </div>
 
             <div class="form-wrapper" id="login-form">
