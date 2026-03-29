@@ -8,53 +8,42 @@ import random
 from django.core.mail import send_mail
 from email_validator import validate_email, EmailNotValidError
 from main.utils import encrypt_password, decrypt_password
+from rest_framework import generics
+from main.serializers import *
+from django.views.generic import TemplateView
+from rest_framework.views import APIView
+from rest_framework.response import Response
 # Create your views here.
 
 
-def index(request):
-    user_messages = UserContact.objects.filter(check_box=True).order_by('-id')[:8]
-    count = user_messages.count() 
+class HomeView(TemplateView):
+    template_name = 'pages/index.html'
 
-    user_messages_carusel = None
-    dot_count = 0
-
-    if count >= 4:
-        user_messages_carusel = user_messages
-        dot_count = math.ceil(count / 2)
-
-    data = {
-        'user_messages_carusel': user_messages_carusel,
-        'dot_count': range(dot_count),
-    }
-
-    return render(request, 'pages/index.html', data)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        carousel_data = UserContact.objects.get_carousel_data()
+        
+        context.update(carousel_data)
+        
+        return context
 
 
-def about(request):
-    messages = UserMessage.objects.filter(check_box=True).order_by('-id')[:8]
-    count = len(messages)
+class AboutView(TemplateView):
+    template_name = 'pages/about.html'
 
-    user_messages_carusel = None
-    dot_count = 0
-
-    if count >= 4:
-        user_messages_carusel = messages
-        dot_count = math.ceil(count / 2)
-
-    data = {
-        'user_messages_carusel': user_messages_carusel,
-        'dot_count': range(dot_count),
-    }
-    return render(request, 'pages/about.html', data)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        carousel_data = UserContact.objects.get_carousel_data()
+        
+        context.update(carousel_data)
+        
+        return context
 
 
 def packages(request):
-    destinations_list = Destinations.objects.prefetch_related(
-        'destinationsamenity_set__amenity').all()
-
-    data = {'destinations_list': destinations_list, }
-
-    return render(request, 'pages/packages.html', data)
+    return render(request, 'pages/packages.html')
 
 
 def hotels(request):
@@ -151,8 +140,8 @@ def contact(request):
             message=message,
             user_img=user_img,
             stars=stars,
-            ip_address=ipaddress,    
-            pub_date=timezone.now()    
+            ip_address=ipaddress,
+            pub_date=timezone.now()
         )
 
         messages.success(request, "Thank you! Your message has been sent.")
@@ -167,6 +156,7 @@ def elements(request):
 
 def insurance(request):
     return render(request, 'pages/insurance.html')
+
 
 def profile(request):
     return render(request, 'pages/profile.html')
@@ -237,6 +227,7 @@ def verify_page(request):
                 password=temp_data['password']
             )
             del request.session['temp_user']
+
             return render(request, "pages/auth_page.html", {"success": "Account Verified and Created!"})
         else:
             return render(request, "pages/verify.html", {"error": "Wrong code!"})
@@ -250,7 +241,24 @@ def create_google_user_profile(sender, instance, created, **kwargs):
             SignUp.objects.create(
                 username=instance.username,
                 email=instance.email,
-                password="GOOGLE_AUTH_USER", 
-                phone="N/A",               
+                password="GOOGLE_AUTH_USER",
+                phone="N/A",
                 pub_date=timezone.now()
             )
+
+
+class DestinationListAPI(generics.ListAPIView):
+    queryset = Destinations.objects.all()
+    serializer_class = DestinationSerializer
+
+
+class UserMessageAPIView(APIView):
+    def get(self, request):
+        # Always take up to 8
+        messages = UserContact.objects.filter(check_box=True).order_by('-id')[:8]
+        serializer = UserMessageSerializer(messages, many=True)
+        
+        return Response({
+            'count': messages.count(),
+            'messages': serializer.data
+        })

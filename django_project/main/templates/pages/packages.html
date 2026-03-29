@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <div id="site-preloader">
+        <div class="loader-content">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <p>Preparing your journey...</p>
+        </div>
+    </div>
     <div class="wrapper">
         <header class="header banner-area">`
             <nav class="nav-bar" id="nav-bar">
@@ -48,19 +56,22 @@
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
                                 <li><a href="{% url 'insurance' %}">Insurance</a></li>
-                                <li class="menu-has-children"><a href="{% url 'profile' %}" class="sf-with-ul">Profile</a>
+                                <li class="menu-has-children"><a href="{% url 'profile' %}"
+                                        class="sf-with-ul">Profile</a>
                                     <ul>
                                         <li><a href="{% url 'profile' %}">Profile</a></li>
                                         <li><a href="{% url 'auth_page' %}">Auth Page</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'blog-home' %}" class="sf-with-ul">Blog</a>
+                                <li class="menu-has-children"><a href="{% url 'blog-home' %}"
+                                        class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
                                         <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'elements' %}" class="sf-with-ul">Pages</a>
+                                <li class="menu-has-children"><a href="{% url 'elements' %}"
+                                        class="sf-with-ul">Pages</a>
                                     <ul>
                                         <li><a href="{% url 'elements' %}">Elements</a></li>
                                         <li class="menu-has-children"><a href="" class="sf-with-ul">Level 2 </a>
@@ -86,7 +97,8 @@
                                 Tour Packages
                             </h1>
                             <p class="text-white link-nav"><a href="{% url 'index' %}">Home </a> <i
-                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'packages' %}"> Tour Packages</a></p>
+                                    class="fa-solid fa-arrow-right"></i> <a href="{% url 'packages' %}"> Tour
+                                    Packages</a></p>
                         </div>
                     </div>
                 </div>
@@ -110,7 +122,8 @@
                         <div id="slider" class="hot-deal-section-carusel-slider">
                             <div class="hot-deal-section-carusel-card">
                                 <div class="hot-deal-section-carusel-image-container">
-                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}" alt="Ancient Architecture">
+                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}"
+                                        alt="Ancient Architecture">
                                     <div class="hot-deal-section-carusel-overlay"></div>
                                     <a href="#" class="hot-deal-section-carusel-price-tag">
                                         Starting From <span>$250</span>
@@ -124,7 +137,8 @@
                             </div>
                             <div class="hot-deal-section-carusel-card">
                                 <div class="hot-deal-section-carusel-image-container">
-                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}" alt="Ancient Architecture">
+                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}"
+                                        alt="Ancient Architecture">
                                     <div class="hot-deal-section-carusel-overlay"></div>
                                     <a href="#" class="hot-deal-section-carusel-price-tag">
                                         Starting From <span>$250</span>
@@ -137,7 +151,8 @@
                             </div>
                             <div class="hot-deal-section-carusel-card">
                                 <div class="hot-deal-section-carusel-image-container">
-                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}" alt="Ancient Architecture">
+                                    <img src="{% static 'img/destination-img/hot-deal.jpg' %}"
+                                        alt="Ancient Architecture">
                                     <div class="hot-deal-section-carusel-overlay"></div>
                                     <a href="#" class="hot-deal-section-carusel-price-tag">
                                         Starting From <span>$250</span>
@@ -172,39 +187,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="destinations-section-cards">
-                        {% if destinations_list %}
-                        {% for item in destinations_list %}
-                        <div class="destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{{ item.destinations_img.url }}" alt="{{ item.name }}">
-                                </div>
-                                <div class="details">
-                                    <h4>{{ item.name }}</h4>
-                                    <p>
-                                        {{ item.country }}
-                                    </p>
-                                    </p>
-                                    <ul class="package-list">
-                                        {% for i in item.destinationsamenity_set.all %}
-                                        <li>
-                                            <span>{{ i.amenity.name }}</span>
-                                            <span>{{ i.text }}</span>
-                                        </li>
-                                        {% endfor %}
-                                        <li>
-                                            <span>Price per person</span>
-                                            <a href="#" class="price-btn">${{ item.price_per_person|floatformat:0 }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                            <p>No destinations available.</p>
-                        {% endif %}
+                    <div id="api-destinations-list" class="destinations-section-cards">
+                        <p>Loading the latest deals...</p>
                     </div>
                 </div>
             </section>
@@ -228,7 +212,8 @@
                             <a href="#" class="primary-btn">request custom price</a>
                         </div>
                         <div class="home-about-section-right">
-                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}" alt="">
+                            <img class="home-about-section-img-fluid" src="{% static 'img/home-img/about-img.jpg' %}"
+                                alt="">
                         </div>
                     </div>
                 </div>
@@ -325,6 +310,31 @@
         </footer>
     </div>
     <script src="{% static 'js/packages.js' %}"></script>
+    <script>
+        function lazyLoad() {
+            const preloader = document.getElementById('site-preloader')
+
+            if (!preloader) return
+
+            setTimeout(() => {
+                preloader.style.opacity = '0'
+                setTimeout(() => {
+                    preloader.style.display = 'none'
+                }, 500)
+            }, 200)
+        }
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            navBarLinksChilds()
+            navBarMovement()
+            document.addEventListener('DOMContentLoaded', hotDealCarusel())
+            smoothUp()
+            cardDest()
+
+
+            lazyLoad()
+        })
+    </script>
 </body>
 
 </html>

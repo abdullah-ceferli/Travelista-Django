@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('main.urls')),
     path('accounts/', include('allauth.urls')),
+    path('api/destinations/', DestinationListAPI.as_view(), name='destination-list-api'),
+    path('api/user-messages/', UserMessageAPIView.as_view(), name='user_messages_api'),
 ]
 
 if not settings.DEBUG:

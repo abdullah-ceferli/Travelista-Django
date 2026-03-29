@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <div id="site-preloader">
+        <div class="loader-content">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <p>Preparing your journey...</p>
+        </div>
+    </div>
     <div class="wrapper">
         <header class="header banner-area">`
             <nav class="nav-bar" id="nav-bar">
@@ -401,6 +409,28 @@
         </footer>
     </div>
     <script src="{% static 'js/elements.js' %}"></script>
+    <script>
+        function lazyLoad() {
+            const preloader = document.getElementById('site-preloader')
+
+            if (!preloader) return
+
+            setTimeout(() => {
+                preloader.style.opacity = '0'
+                setTimeout(() => {
+                    preloader.style.display = 'none'
+                }, 500)
+            }, 200)
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            navBarLinksChilds()
+            navBarMovement()
+            smoothUp()
+
+            lazyLoad()
+        })
+    </script>
 </body>
 
 </html>

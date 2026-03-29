@@ -44,8 +44,3 @@ function smoothUp() {
     })
 }
 
-navBarLinksChilds()
-
-navBarMovement()
-
-smoothUp()

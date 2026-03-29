@@ -8,12 +8,31 @@ from django.contrib import messages
 
 # Register your models here.
 
-admin.site.register(UserContact)
+class UserMessageAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'message', 'check_box', 'pub_date']
+
+admin.site.register(UserMessage, UserMessageAdmin)
 
 
-admin.site.register(UserMessage)
 
-admin.site.register(SignUp)
+
+
+class UserContactAdmin(admin.ModelAdmin):
+    list_display = ['name', 'surname', 'email', 'message', 'check_box']
+
+admin.site.register(UserContact, UserContactAdmin)
+
+
+
+
+class SignUpAdmin(admin.ModelAdmin):
+    list_display = ['username', 'email', 'phone', 'pub_date', 'ip_address']
+
+admin.site.register(SignUp, SignUpAdmin)
+
+
+
+
 
 class HotelAmenityInline(admin.TabularInline):
     model = HotelAmenity

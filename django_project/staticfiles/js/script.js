@@ -68,7 +68,7 @@ function testimonialCarusel() {
     const cards = slider.querySelectorAll('.testimonial-card')
     let autoSlideInterval
 
-    const totalItems = dots.length; 
+    const totalItems = dots.length;
 
     function goToSlide(index) {
         const cardWidth = cards[0].offsetWidth + 20
@@ -88,7 +88,7 @@ function testimonialCarusel() {
     slider.addEventListener('scroll', () => {
         const cardWidth = cards[0].offsetWidth + 20
         const scrollPos = slider.scrollLeft
-        
+
         const activeIndex = Math.round(scrollPos / cardWidth) % totalItems
 
         dots.forEach((dot, i) => {
@@ -100,7 +100,7 @@ function testimonialCarusel() {
         autoSlideInterval = setInterval(() => {
             const cardWidth = cards[0].offsetWidth + 20
             let currentIndex = Math.round(slider.scrollLeft / cardWidth)
-            
+
             let nextIndex = (currentIndex + 1) % totalItems
 
             if (currentIndex >= totalItems) {
@@ -116,7 +116,7 @@ function testimonialCarusel() {
         clearInterval(autoSlideInterval)
         startAutoSlide()
     }
-    
+
     startAutoSlide()
 }
 
@@ -173,16 +173,3 @@ function smoothUp() {
         })
     })
 }
-
-
-navBarLinksChilds()
-
-heroSectionMenuBar()
-
-navBarMovement()
-
-testimonialCarusel()
-
-recentBlogCarusel()
-
-smoothUp()

@@ -88,10 +88,47 @@ function smoothUp() {
     })
 }
 
-navBarLinksChilds()
+function cardDest() {
+    async function refreshDestinations() {
+        const response = await fetch('/api/destinations/')
+        const data = await response.json()
+        const container = document.getElementById('api-destinations-list')
 
-navBarMovement()
+        container.innerHTML = ''
 
-document.addEventListener('DOMContentLoaded', hotDealCarusel())
+        data.forEach(item => {
+            let amenitiesHTML = '';
+            item.amenities_detail.forEach(amenity => {
+                amenitiesHTML += `
+                <li>
+                    <span>${amenity.name}</span>
+                    <span>${amenity.text}</span>
+                </li>`
+            })
 
-smoothUp()
+            container.innerHTML += `
+            <div class="destinations-section-card">
+                <div class="single-destinations">
+                    <div class="thumb">
+                        <img src="${item.destinations_img}" alt="${item.name}">
+                    </div>
+                    <div class="details">
+                        <h4>${item.name}</h4>
+                        <p>${item.location}</p>
+                        <ul class="package-list">
+                            ${amenitiesHTML}
+                            <li>
+                                <span>Price per person</span>
+                                <a href="#" class="price-btn">$${Math.round(item.price_per_person)}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>`
+        })
+    }
+
+    refreshDestinations()
+}
+
+

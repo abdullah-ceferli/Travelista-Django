@@ -1,0 +1,6 @@
+$kind: collection
+name: Travelista Django API Tests
+description: Test collection for the Travelista Django travel booking web application. Covers page rendering, contact form, blog comments, user signup, and email verification flows.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:8000'

@@ -103,10 +103,3 @@ function smoothUp() {
     })
 }
 
-navBarLinksChilds()
-
-navBarMovement()
-
-testimonialCarusel()
-
-smoothUp()

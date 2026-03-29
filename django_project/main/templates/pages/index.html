@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <div id="site-preloader">
+        <div class="loader-content">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <p>Preparing your journey...</p>
+        </div>
+    </div>
     <div class="wrapper">
         <header class="header banner-area">
             <nav class="nav-bar" id="nav-bar">
@@ -48,19 +56,22 @@
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
                                 <li><a href="{% url 'insurance' %}">Insurance</a></li>
-                                <li class="menu-has-children"><a href="{% url 'profile' %}" class="sf-with-ul">Profile</a>
+                                <li class="menu-has-children"><a href="{% url 'profile' %}"
+                                        class="sf-with-ul">Profile</a>
                                     <ul>
                                         <li><a href="{% url 'profile' %}">Profile</a></li>
                                         <li><a href="{% url 'auth_page' %}">Auth Page</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'blog-home' %}" class="sf-with-ul">Blog</a>
+                                <li class="menu-has-children"><a href="{% url 'blog-home' %}"
+                                        class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
                                         <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'elements' %}" class="sf-with-ul">Pages</a>
+                                <li class="menu-has-children"><a href="{% url 'elements' %}"
+                                        class="sf-with-ul">Pages</a>
                                     <ul>
                                         <li><a href="{% url 'elements' %}">Elements</a></li>
                                         <li class="menu-has-children"><a href="" class="sf-with-ul">Level 2 </a>
@@ -708,6 +719,32 @@
         </footer>
     </div>
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        function lazyLoad() {
+            const preloader = document.getElementById('site-preloader')
+
+            if (!preloader) return
+
+            setTimeout(() => {
+                preloader.style.opacity = '0'
+                setTimeout(() => {
+                    preloader.style.display = 'none'
+                }, 500)
+            }, 200)
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            navBarLinksChilds()
+            heroSectionMenuBar()
+            navBarMovement()
+            testimonialCarusel()
+            recentBlogCarusel()
+            smoothUp()
+
+
+            lazyLoad()
+        })
+    </script>
 </body>
 
 </html>

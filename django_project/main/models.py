@@ -1,3 +1,4 @@
+import math
 from pyexpat import model
 
 from django.db import models
@@ -84,6 +85,25 @@ class DestinationsAmenity(models.Model):
 
 
 # user model
+class UserContactManager(models.Manager):
+    def get_carousel_data(self):
+        messages = self.filter(check_box=True).order_by('-id')[:8]
+        count = messages.count()
+        
+        user_messages_carusel = None
+        dot_count = 0
+
+        if count >= 4:
+            user_messages_carusel = messages
+            dot_count = math.ceil(count / 2)
+
+        return {
+            'user_messages_carusel': user_messages_carusel,
+            'dot_count': range(dot_count),
+        }
+    
+
+
 class UserMessage(models.Model):
     name = models.CharField(max_length=100)
 
@@ -106,6 +126,7 @@ class UserMessage(models.Model):
         return f"{self.name} ({self.email}), Created at - {self.pub_date}"
     
 
+
 class UserContact(models.Model):
     name = models.CharField(max_length=100)
 
@@ -127,6 +148,8 @@ class UserContact(models.Model):
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     
     ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    objects = UserContactManager()
 
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"

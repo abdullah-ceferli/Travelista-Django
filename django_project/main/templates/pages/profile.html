@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <div id="site-preloader">
+        <div class="loader-content">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <p>Preparing your journey...</p>
+        </div>
+    </div>
     <div class="wrapper">
         <header class="header banner-area">
             <nav class="nav-bar" id="nav-bar">
@@ -48,19 +56,22 @@
                                 <li><a href="{% url 'packages' %}">Packages</a></li>
                                 <li><a href="{% url 'hotels' %}">Hotels</a></li>
                                 <li><a href="{% url 'insurance' %}">Insurance</a></li>
-                                <li class="menu-has-children"><a href="{% url 'profile' %}" class="sf-with-ul">Profile</a>
+                                <li class="menu-has-children"><a href="{% url 'profile' %}"
+                                        class="sf-with-ul">Profile</a>
                                     <ul>
                                         <li><a href="{% url 'profile' %}">Profile</a></li>
                                         <li><a href="{% url 'auth_page' %}">Auth Page</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'blog-home' %}" class="sf-with-ul">Blog</a>
+                                <li class="menu-has-children"><a href="{% url 'blog-home' %}"
+                                        class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
                                         <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-has-children"><a href="{% url 'elements' %}" class="sf-with-ul">Pages</a>
+                                <li class="menu-has-children"><a href="{% url 'elements' %}"
+                                        class="sf-with-ul">Pages</a>
                                     <ul>
                                         <li><a href="{% url 'elements' %}">Elements</a></li>
                                         <li class="menu-has-children"><a href="" class="sf-with-ul">Level 2 </a>
@@ -94,7 +105,69 @@
             </div>
         </header>
         <main class="main">
-            
+            <div class="profile-content section-gap">
+                <div class="container">
+                    <div class="profile-content-main">
+                        <div class="card card-profile shadow">
+                            <div class="profile-card-img">
+                                <div class="card-profile-image-main">
+                                    <div class="card-profile-image">
+                                        <a href="#">
+                                            <img src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg"
+                                                class="rounded-circle">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header">
+                                <div>
+                                    <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
+                                    <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0 pt-md-4">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                            <div>
+                                                <span class="heading">22</span>
+                                                <span class="description">Friends</span>
+                                            </div>
+                                            <div>
+                                                <span class="heading">10</span>
+                                                <span class="description">Photos</span>
+                                            </div>
+                                            <div>
+                                                <span class="heading">89</span>
+                                                <span class="description">Comments</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <h3>
+                                        Jessica Jones<span class="font-weight-light">, 27</span>
+                                    </h3>
+                                    <div class="h5 font-weight-300">
+                                        <i class="ni location_pin mr-2"></i>Bucharest, Romania
+                                    </div>
+                                    <div class="h5 mt-4">
+                                        <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim
+                                        Officer
+                                    </div>
+                                    <div>
+                                        <i class="ni education_hat mr-2"></i>University of Computer Science
+                                    </div>
+                                    <hr class="my-4">
+                                    <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
+                                        performs and records all of his own music.</p>
+                                    <a href="#">Show more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         <footer class="footer section-gap">
             <div class="container">
@@ -186,6 +259,29 @@
         </footer>
     </div>
     <script src="{% static 'js/profile.js' %}"></script>
+    <script>
+        function lazyLoad() {
+            const preloader = document.getElementById('site-preloader')
+
+            if (!preloader) return
+
+            setTimeout(() => {
+                preloader.style.opacity = '0'
+                setTimeout(() => {
+                    preloader.style.display = 'none'
+                }, 500)
+            }, 200)
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            navBarLinksChilds()
+            navBarMovement()
+            smoothUp()
+
+            
+            lazyLoad()
+        })
+    </script>
 </body>
 
 </html>
