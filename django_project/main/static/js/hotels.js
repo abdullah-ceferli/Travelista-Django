@@ -44,3 +44,69 @@ function smoothUp() {
     })
 }
 
+async function loadHotels() {
+    const container = document.getElementById('hotel-container')
+    if (!container) return
+
+    try {
+        const response = await fetch('/api/hotels/')
+        const data = await response.json()
+
+        if (data.results && data.results.length > 0) {
+            let hotelHtml = ''
+
+            data.results.forEach(item => {
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<span class="fa fa-star ${i <= item.stars ? 'checked' : ''}"></span>`
+                }
+
+                let amenitiesHtml = ''
+                if (item.amenities_detail) {
+                    item.amenities_detail.forEach(am => {
+                        amenitiesHtml += `
+                        <li>
+                            <span>${am.name}</span>
+                            <span>${am.is_available ? 'Yes' : 'No'}</span>
+                        </li>`
+                    })
+                }
+
+                hotelHtml += `
+                <div class="popular-destinations-section-card">
+                    <div class="single-destinations">
+                        <div class="thumb">
+                            <img src="${item.hotel_img}" alt="${item.name}">
+                        </div>
+                        <div class="details">
+                            <h4>
+                                <span>${item.name}</span>
+                                <div class="star">${starsHtml}</div>
+                            </h4>
+                            <p>View on map | ${item.review_count} Reviews</p>
+                            <ul class="package-list">
+                                ${amenitiesHtml}
+                                <li>
+                                    <span>Price per night</span>
+                                    <a href="#" class="price-btn">$${Math.round(item.price_per_night)}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>`
+            })
+
+            container.innerHTML = hotelHtml
+
+            console.log(`Successfully loaded ${data.count} hotels.`)
+
+        }
+        else {
+            container.innerHTML = '<p>No hotels available.</p>'
+        }
+    }
+    catch (error) {
+        console.error("Error loading hotels:", error)
+        container.innerHTML = '<p>Failed to load hotels.</p>'
+    }
+}

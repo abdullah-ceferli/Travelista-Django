@@ -4,25 +4,25 @@ from main.views import *
 urlpatterns = [
     path('index/', HomeView.as_view(), name='index'),
 
-    path('contact/', contact, name='contact'),
+    path('contact/', ContactView.as_view(), name='contact'),
 
     path('about/', AboutView.as_view(), name='about'),
 
-    path('elements/', elements, name='elements'),
+    path('elements/', ElementsView.as_view(), name='elements'),
 
-    path('hotels/', hotels, name='hotels'),
+    path('hotels/', HotelsView.as_view(), name='hotels'),
 
-    path('insurance/', insurance, name='insurance'),
+    path('insurance/', InsuranceView.as_view(), name='insurance'),
 
-    path('packages/', packages, name='packages'),
+    path('packages/', PackagesView.as_view(), name='packages'),
 
-    path('blog-home/', blogHome, name='blog-home'),
+    path('blog-home/', BlogHomeView.as_view(), name='blog-home'),
 
-    path('blog-single/', blogSingle, name='blog-single'),
+    path('blog-single/', BlogSingleView.as_view(), name='blog-single'),
 
-    path('auth_page/', auth_page, name='auth_page'),
+    path('auth_page/', AuthView.as_view(), name='auth_page'),
 
-    path('profile/', profile, name='profile'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 
-    path('verify_page/', verify_page, name='verify_page'),
+    path('verify_page/', VerifyView.as_view(), name='verify_page'),
 ]

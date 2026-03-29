@@ -7,7 +7,7 @@ env_path = BASE_DIR.parent / 'git' / '.env'
 load_dotenv(env_path)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key")
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ["*", "travel-xyz.trycloudflare.com"]
 SITE_ID = 1
 

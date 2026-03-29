@@ -85,25 +85,6 @@ class DestinationsAmenity(models.Model):
 
 
 # user model
-class UserContactManager(models.Manager):
-    def get_carousel_data(self):
-        messages = self.filter(check_box=True).order_by('-id')[:8]
-        count = messages.count()
-        
-        user_messages_carusel = None
-        dot_count = 0
-
-        if count >= 4:
-            user_messages_carusel = messages
-            dot_count = math.ceil(count / 2)
-
-        return {
-            'user_messages_carusel': user_messages_carusel,
-            'dot_count': range(dot_count),
-        }
-    
-
-
 class UserMessage(models.Model):
     name = models.CharField(max_length=100)
 
@@ -126,30 +107,17 @@ class UserMessage(models.Model):
         return f"{self.name} ({self.email}), Created at - {self.pub_date}"
     
 
-
 class UserContact(models.Model):
     name = models.CharField(max_length=100)
-
     surname = models.CharField(max_length=100)
-
     email = models.EmailField(max_length=150)
-
     subject = models.CharField(max_length=200)
-
     message = models.TextField()
-
     check_box = models.BooleanField(default=False)
-
-    user_img = models.ImageField(
-        upload_to='user_images/', null=True, blank=True)
-
+    user_img = models.ImageField(upload_to='user_images/', null=True, blank=True)
     stars = models.PositiveSmallIntegerField(default=5)
-
     pub_date = models.DateTimeField('date published', null=True, blank=True)
-    
     ip_address = models.GenericIPAddressField(null=True, blank=True)
-
-    objects = UserContactManager()
 
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"

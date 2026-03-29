@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from main.views import *
+from main.apiViews import *
 from django.conf import settings
 from django.views.static import serve
 from django.conf.urls.static import static
@@ -25,8 +25,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('main.urls')),
     path('accounts/', include('allauth.urls')),
+
+    # api endpoints
     path('api/destinations/', DestinationListAPI.as_view(), name='destination-list-api'),
-    path('api/user-messages/', UserMessageAPIView.as_view(), name='user_messages_api'),
+    path('api/user-contacts/', UserContactListAPI.as_view(), name='user_contacts_api'),
+    path('api/hotels/', HotelsListAPI.as_view(), name='hotels_api'),
+    path('api/user-messages/', UserMessageListAPI.as_view(), name='user-messages-api'),
 ]
 
 if not settings.DEBUG:

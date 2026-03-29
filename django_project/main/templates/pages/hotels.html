@@ -117,53 +117,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="popular-destinations-section-cards">
-                        {% if hotel_list %}
-                        {% for item in hotel_list %}
-                        <div class="popular-destinations-section-card">
-                            <div class="single-destinations">
-                                <div class="thumb">
-                                    <img src="{{ item.hotel_img.url }}" alt="{{ item.name }}">
-                                </div>
-                                <div class="details">
-                                    <h4>
-                                        <span>{{ item.name }}</span>
-                                        <div class="star">
-                                            {% for i in "12345" %}
-                                            <span
-                                                class="fa fa-star {% if forloop.counter <= item.stars %}checked{% endif %}"></span>
-                                            {% endfor %}
-                                        </div>
-                                    </h4>
-                                    <p>
-                                        View on map | {{ item.review_count }} Reviews
-                                    </p>
-                                    <ul class="package-list">
-                                        {% for i in item.hotelamenity_set.all %}
-                                        <li>
-                                            <span>{{ i.amenity.name }}</span>
-                                            <span>
-                                                {% if i.is_available %}
-                                                Yes
-                                                {% else %}
-                                                No
-                                                {% endif %}
-                                            </span>
-                                        </li>
-                                        {% endfor %}
-
-                                        <li>
-                                            <span>Price per night</span>
-                                            <a href="#" class="price-btn">${{ item.price_per_night|floatformat:0 }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                        <p>No hotels available.</p>
-                        {% endif %}
+                    <div class="popular-destinations-section-cards" id="hotel-container">
+                        <p>Loading luxury stays...</p>
                     </div>
                 </div>
             </section>
@@ -303,6 +258,7 @@
             navBarLinksChilds()
             navBarMovement()
             smoothUp()
+            loadHotels()
 
 
             lazyLoad()
