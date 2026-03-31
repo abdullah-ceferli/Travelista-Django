@@ -1,8 +1,8 @@
+from django_user_agents.utils import get_user_agent
 from django.shortcuts import redirect, render
 from main.models import *
 from main.utils import is_message_appropriate
 from django.contrib import messages
-import math
 from django.utils import timezone
 import random
 from django.core.mail import send_mail
@@ -163,24 +163,36 @@ class AuthView(TemplateView):
 
     def post(self, request):
         form_type = request.POST.get("form_type")
-
         if form_type == "signup":
             return self.handle_signup(request)
-        
         return render(request, self.template_name)
 
     def handle_signup(self, request):
-        """Internal logic for the signup process."""
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
         phone = request.POST.get("phone")
 
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        ip_address = x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
+        
+        user_agent = get_user_agent(request)
+        
+        if user_agent.is_mobile:
+            device = "Mobile"
+        elif user_agent.is_pc:
+            device = "PC"
+        elif user_agent.is_tablet:
+            device = "Tablet"
+        else:
+            device = "Unknown/Bot"
+
+        os_variant = f"{user_agent.os.family} {user_agent.os.version_string}"
+        
+        browser_variant = f"{user_agent.browser.family} {user_agent.browser.version_string}"
+
         if SignUp.objects.filter(username=username).exists():
             return render(request, self.template_name, {"error": "Username already taken."})
-
-        if SignUp.objects.filter(email=email).exists():
-            return render(request, self.template_name, {"error": "Email already registered."})
 
         try:
             email_info = validate_email(email, check_deliverability=True)
@@ -189,25 +201,45 @@ class AuthView(TemplateView):
             return render(request, self.template_name, {"error": str(e)})
 
         code = str(random.randint(100000, 999999))
+        
+        html_content = f"""
+            <div style="font-family: sans-serif; text-align: center; padding: 40px; background-color: #f4f7f6;">
+                <div style="max-width: 400px; margin: auto; background: white; padding: 30px; border-radius: 12px; border: 1px solid #e1e4e8;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/12181/12181695.png" width="70" alt="Logo">
+                    <h2 style="color: #2d3436; margin-top: 20px;">Verify Your Identity</h2>
+                    <p style="color: #636e72;">To keep your SpeedWager account secure, use this code:</p>
+                    <div style="font-size: 36px; font-weight: bold; color: #0984e3; background: #f1f2f6; padding: 15px; border-radius: 8px; letter-spacing: 6px; margin: 25px 0;">
+                        {code}
+                    </div>
+                    <p style="font-size: 11px; color: #b2bec3;">If you didn't request this, please change your password immediately.</p>
+                </div>
+            </div>
+        """
+
         try:
             send_mail(
                 'Your Verification Code',
-                f'Your code is: {code}',
+                f"Your code is: {code}",
                 'speedwagerreal2@gmail.com',
                 [email],
                 fail_silently=False,
+                html_message=html_content,
             )
-        except Exception as e:
-            print(f"SMTP Error: {e}")
-            return render(request, self.template_name, {"error": "We couldn't send the code. Please check your email address."})
+            print("\nCode sent successfully!!\n")
+            print(f"Verification email sent to {email} with code: {code}\n")
+        except Exception:
+            return render(request, self.template_name, {"error": "Failed to send verification email."})
 
-        secure_password = encrypt_password(password) 
         request.session['temp_user'] = {
             'username': username,
             'email': email,
             'phone': phone,
-            'password': secure_password,
-            'code': code
+            'password': encrypt_password(password),
+            'code': code,
+            'ip_address': ip_address,
+            'device_type': device,
+            'os_family': os_variant,      
+            'browser_family': browser_variant 
         }
         
         return redirect('verify_page')
@@ -216,18 +248,13 @@ class AuthView(TemplateView):
 class VerifyView(TemplateView):
     template_name = "pages/verify.html"
 
-    def get_temp_data(self, request):
-        """Helper to retrieve session data or return None."""
-        return request.session.get('temp_user')
-
     def get(self, request):
-        if not self.get_temp_data(request):
+        if not request.session.get('temp_user'):
             return redirect('auth_page')
-        
         return render(request, self.template_name)
 
     def post(self, request):
-        temp_data = self.get_temp_data(request)
+        temp_data = request.session.get('temp_user')
         
         if not temp_data:
             return redirect('auth_page')
@@ -239,18 +266,21 @@ class VerifyView(TemplateView):
                 username=temp_data['username'],
                 email=temp_data['email'],
                 phone=temp_data['phone'],
-                password=temp_data['password']
+                password=temp_data['password'],
+                ip_address=temp_data.get('ip_address'),
+                device_type=temp_data.get('device_type'),
+                os_family=temp_data.get('os_family'),     
+                browser_family=temp_data.get('browser_family') 
             )
             
             del request.session['temp_user']
 
             return render(request, "pages/auth_page.html", {
-                "success": "Account Verified and Created!"
+                "success": "Verified! You can now log in !!"
             })
         
         else:
-            return render(request, self.template_name, {"error": "Wrong code!"})
-
+            return render(request, self.template_name, {"error": "Invalid code. Please check your inbox."})
 
 def create_google_user_profile(sender, instance, created, **kwargs):
     if created:

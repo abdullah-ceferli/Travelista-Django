@@ -103,16 +103,15 @@
                     <div class="hero-section-right">
                         <ul class="hero-section-tab" id="myTab" role="tablist">
                             <li class="tab-item">
-                                <a class="tab-link active" id="flight-tab" data-toggle="tab" href="#flight" role="tab"
-                                    aria-controls="flight" aria-selected="true">Flights</a>
+                                <a class="tab-link active" data-target="flight" href="javascript:void(0)"
+                                    role="tab">Flights</a>
                             </li>
                             <li class="tab-item">
-                                <a class="tab-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab"
-                                    aria-controls="hotel" aria-selected="false">Hotels</a>
+                                <a class="tab-link" data-target="hotel" href="javascript:void(0)" role="tab">Hotels</a>
                             </li>
                             <li class="tab-item">
-                                <a class="tab-link" id="holiday-tab" data-toggle="tab" href="#holiday" role="tab"
-                                    aria-controls="holiday" aria-selected="false">Holidays</a>
+                                <a class="tab-link" data-target="holiday" href="javascript:void(0)"
+                                    role="tab">Holidays</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
@@ -445,31 +444,31 @@
                         <div class="testimonial-slider" id="slider">
                             {% if carousel_items %}
                             {% for item in carousel_items %}
-                                <div class="testimonial-card">
-                                    <img src="{% if item.user_img %}{{ item.user_img.url }}{% else %}img/user-img/user1.png{% endif %}"
-                                        class="testimonial-card-img">
-                                    <div>
-                                        <p class="testimonial-card-text">
-                                            {{ item.message }}
-                                        </p>
-                                        <h4 class="testimonial-card-user-name">{{ item.name }} {{ item.surname }}</h4>
-                                        <div class="testimonial-card-stars">
-                                            {% for i in "12345" %}
-                                            {% if forloop.counter <= item.stars %} ★ {% else %} ☆ {% endif %} {% endfor %}
-                                        </div>
+                            <div class="testimonial-card">
+                                <img src="{% if item.user_img %}{{ item.user_img.url }}{% else %}img/user-img/user1.png{% endif %}"
+                                    class="testimonial-card-img">
+                                <div>
+                                    <p class="testimonial-card-text">
+                                        {{ item.message }}
+                                    </p>
+                                    <h4 class="testimonial-card-user-name">{{ item.name }} {{ item.surname }}</h4>
+                                    <div class="testimonial-card-stars">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= item.stars %} ★ {% else %} ☆ {% endif %} {% endfor %}
+                                            </div>
                                     </div>
                                 </div>
-                            {% endfor %}
-                            {% endif %}
-                                
-                        </div>
-                        <div class="testimonial-nav-dots" id="dotContainer">
-                            {% for i in dots_range %}
-                            <div class="testimonial-nav-dot {% if forloop.first %}active{% endif %}"></div>
-                            {% endfor %}    
+                                {% endfor %}
+                                {% endif %}
+
+                            </div>
+                            <div class="testimonial-nav-dots" id="dotContainer">
+                                {% for i in dots_range %}
+                                <div class="testimonial-nav-dot {% if forloop.first %}active{% endif %}"></div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
             </secttion>
             <!-- End Testimonial Area Section -->
 
@@ -672,7 +671,6 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             navBarLinksChilds()
-            heroSectionMenuBar()
             navBarMovement()
             testimonialCarusel()
             recentBlogCarusel()

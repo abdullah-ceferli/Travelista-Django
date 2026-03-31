@@ -7,6 +7,10 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 # Register your models here.
+@admin.register(LoginRecord)
+class LoginRecordAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'logintime', 'ip_address')
+
 
 class UserMessageAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'message', 'check_box', 'pub_date']

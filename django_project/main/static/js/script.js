@@ -16,34 +16,34 @@ function navBarLinksChilds() {
     })
 }
 
-function heroSectionMenuBar() {
-    document.addEventListener('DOMContentLoaded', function () {
-        const tabLinks = document.querySelectorAll('.tab-link')
-        const tabPanes = document.querySelectorAll('.tab-pane')
+document.addEventListener('DOMContentLoaded', function () {
+    const tabLinks = document.querySelectorAll('.tab-link')
+    const tabPanes = document.querySelectorAll('.tab-pane')
 
-        tabLinks.forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault()
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault()
 
-                tabLinks.forEach(item => item.classList.remove('active'))
+            tabLinks.forEach(item => item.classList.remove('active'))
+            tabPanes.forEach(pane => {
+                pane.classList.remove('show', 'active')
+            })
 
-                tabPanes.forEach(pane => {
-                    pane.classList.remove('show', 'active')
-                })
+            this.classList.add('active')
 
-                this.classList.add('active');
+            const targetId = this.getAttribute('data-target')
+            const targetPane = document.getElementById(targetId)
 
-                const targetId = this.getAttribute('href')
-                const targetPane = document.querySelector(targetId);
-
+            if (targetPane) {
                 targetPane.classList.add('active')
                 setTimeout(() => {
                     targetPane.classList.add('show')
                 }, 10)
-            })
+            }
         })
     })
-}
+})
+
 
 function navBarMovement() {
     const headerSticky = document.getElementById("nav-bar")

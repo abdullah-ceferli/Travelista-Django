@@ -70,8 +70,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.trycloudflare.com",
     "https://travel-xyz.trycloudflare.com",
     "http://127.0.0.1",
+    "http://localhost",
 ]
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

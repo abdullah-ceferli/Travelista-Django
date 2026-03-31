@@ -125,17 +125,27 @@ class UserContact(models.Model):
 
 class SignUp(models.Model):
     username = models.CharField(max_length=100)
-
     email = models.EmailField(max_length=150)
-
     password = models.CharField(max_length=200)
-
     phone = models.CharField(max_length=20)
-
-    pub_date = models.DateTimeField('date published', null=True, blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     ip_address = models.GenericIPAddressField(null=True, blank=True)
 
+    device_type = models.CharField(max_length=50, null=True)     
+    os_family = models.CharField(max_length=50, null=True)    
+    os_version = models.CharField(max_length=50, null=True) 
+    browser_family = models.CharField(max_length=50, null=True) 
+    browser_version = models.CharField(max_length=50, null=True)
+
     def __str__(self):
         return f"{self.username} ({self.email})"
-    
+
+class LoginRecord(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField(max_length=150)
+    logintime = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    def __str__(self):
+        return self.username

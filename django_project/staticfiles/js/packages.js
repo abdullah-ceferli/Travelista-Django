@@ -96,7 +96,7 @@ function cardDest() {
 
         container.innerHTML = ''
 
-        data.forEach(item => {
+        data.results.forEach(item => {
             let amenitiesHTML = '';
             item.amenities_detail.forEach(amenity => {
                 amenitiesHTML += `
