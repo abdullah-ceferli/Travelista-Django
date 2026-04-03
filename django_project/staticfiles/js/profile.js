@@ -43,3 +43,25 @@ function smoothUp() {
         })
     })
 }
+
+function toggleComments() {
+    const commentsSection = document.querySelector('.profile-comments')
+    const toggleButton = document.querySelector('.btn-message')
+
+    toggleButton.addEventListener('click', function (e) {
+        e.preventDefault()
+        
+        const isHidden = commentsSection.style.display === 'none' || commentsSection.style.display === ''
+        
+        if (isHidden) {
+            commentsSection.style.display = 'flex'
+            
+            commentsSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            })
+        } else {
+            commentsSection.style.display = 'none'
+        }
+    })
+}

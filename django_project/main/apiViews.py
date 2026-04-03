@@ -1,7 +1,6 @@
-from rest_framework import generics
 from main.models import *
 from main.serializers import *
-from rest_framework import generics, pagination
+from rest_framework import generics, pagination, filters
 
 class StandardResultsSetPagination(pagination.PageNumberPagination):
     page_size = 100
@@ -15,7 +14,7 @@ class DestinationListAPI(generics.ListAPIView):
 
 
 class UserContactListAPI(generics.ListAPIView):
-    queryset = UserContact.objects.all()
+    queryset = UserContact.objects.filter(check_box=True).order_by('-pub_date')
     serializer_class = UserContactSerializer
     pagination_class = StandardResultsSetPagination
 
@@ -25,6 +24,19 @@ class HotelsListAPI(generics.ListAPIView):
     pagination_class = StandardResultsSetPagination 
 
 class UserMessageListAPI(generics.ListAPIView):
-    queryset = UserMessage.objects.all()
+    queryset = UserMessage.objects.filter(check_box=True).order_by('-pub_date')
     serializer_class = UserMessageSerializer
     pagination_class = StandardResultsSetPagination
+
+
+class UserDataListAPI(generics.ListAPIView):
+    queryset = SignUp.objects.all()
+    serializer_class = UserDataSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+class BlogPostListAPI(generics.ListAPIView):
+    queryset = BlogPost.objects.all().order_by('-pub_date')
+    serializer_class = BlogPostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'content', 'tags__name']

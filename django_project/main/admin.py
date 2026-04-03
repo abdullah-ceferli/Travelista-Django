@@ -6,13 +6,29 @@ from django.template.response import TemplateResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 
-# Register your models here.
-@admin.register(LoginRecord)
-class LoginRecordAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'logintime', 'ip_address')
+admin.site.register(Tag)
+
+class BlogPostTagInline(admin.TabularInline):
+    model = BlogPost.tags.through 
+    extra = 1 
+    verbose_name = "Tag for this post"
+    verbose_name_plural = "Tags for this post"
+
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'content', 'author__name']
+    list_filter = ['pub_date', 'tags']
+    inlines = [BlogPostTagInline]
+    exclude = ('tags',) 
+    list_display = ('title', 'author', 'pub_date')
+    readonly_fields = ('pub_date',)
+
 
 
 class UserMessageAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'message', 'blog_post__title']
+    list_filter = ['pub_date']
     list_display = ['name', 'email', 'message', 'check_box', 'pub_date']
 
 admin.site.register(UserMessage, UserMessageAdmin)

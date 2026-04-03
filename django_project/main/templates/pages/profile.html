@@ -67,7 +67,7 @@
                                         class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
-                                        <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
+                                        <li><a href="{% url 'add_blog' %}">Add Blog</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-has-children"><a href="{% url 'elements' %}"
@@ -105,67 +105,86 @@
             </div>
         </header>
         <main class="main">
-            <div class="profile-content section-gap">
-                <div class="container">
-                    <div class="profile-content-main">
-                        <div class="card card-profile shadow">
-                            <div class="profile-card-img">
-                                <div class="card-profile-image-main">
-                                    <div class="card-profile-image">
-                                        <a href="#">
-                                            <img src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg"
-                                                class="rounded-circle">
-                                        </a>
-                                    </div>
+            <div class="profile-container">
+                <div class="profile-card">
+
+                    <div class="profile-image-section">
+                        <div class="image-circle">
+                            {% if profile_user.profile_img %}
+                                <img src="{{ profile_user.profile_img.url }}" alt="Profile Image">
+                            {% else %}
+                                <img src="{% static 'img/default-avatar.png' %}" alt="Default Profile">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="profile-header-actions">
+                        <a href="{% url 'connect' %}" class="btn-connect">Connect</a>
+                        <a href="" class="btn-message">Message</a>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-num">{{ photo_count|stringformat:"02d" }}</span>
+                            <span class="stat-label">Photos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">{{ post_count|stringformat:"02d" }}</span>
+                            <span class="stat-label">Posts</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">{{ comment_count|stringformat:"02d" }}</span>
+                            <span class="stat-label">Comments</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-text">
+                        <h3>{{ profile_user.name }} {{ profile_user.last_name }}, <span class="age-text">{{ profile_user.age }}</span></h3>
+                        <p class="location-text"><i class="fa-solid fa-location-dot"></i> {{ profile_user.location }}</p>
+
+                        <div class="job-info">
+                            <p><i class="fa-solid fa-briefcase"></i> Solution Manager - Creative Tim Officer</p>
+                            <p><i class="fa-solid fa-graduation-cap"></i> University of Computer Science</p>
+                        </div>
+
+                        <hr class="divider">
+
+                        <p class="bio-text">
+                            {{ profile_user.about_me|default:"No description provided." }}
+                        </p>
+
+                        <div class="profile-footer">
+                            <a href="#" class="show-more">Show more</a>
+                            <a href="{% url 'logout_action' %}" class="logout-link">Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-comments">
+                <div class="comments-scrool">
+                    {% for comment in comments %}
+                    <div class="comment-list" style="margin-bottom: 30px;">
+                        <div class="single-comment">
+                            <div class="thumb">
+                                <img src="{{ comment.user_img.url }}" alt="avatar" style="width:50px; height:50px; border-radius:50%; object-fit: cover;">
+                            </div>
+                            <div class="desc">
+                                <h5>{{ comment.name }} {{ comment.last_name }}</h5>
+                                <p class="date">{{ comment.pub_date|timesince }}</p>
+                                <div class="comment">
+                                    <p>{{ comment.message }}</p>
                                 </div>
                             </div>
-                            <div class="card-header">
-                                <div>
-                                    <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
-                                    <a href="#" class="btn btn-sm btn-default float-right">Message</a>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0 pt-md-4">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                                            <div>
-                                                <span class="heading">22</span>
-                                                <span class="description">Friends</span>
-                                            </div>
-                                            <div>
-                                                <span class="heading">10</span>
-                                                <span class="description">Photos</span>
-                                            </div>
-                                            <div>
-                                                <span class="heading">89</span>
-                                                <span class="description">Comments</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h3>
-                                        Jessica Jones<span class="font-weight-light">, 27</span>
-                                    </h3>
-                                    <div class="h5 font-weight-300">
-                                        <i class="ni location_pin mr-2"></i>Bucharest, Romania
-                                    </div>
-                                    <div class="h5 mt-4">
-                                        <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim
-                                        Officer
-                                    </div>
-                                    <div>
-                                        <i class="ni education_hat mr-2"></i>University of Computer Science
-                                    </div>
-                                    <hr class="my-4">
-                                    <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                                        performs and records all of his own music.</p>
-                                    <a href="#">Show more</a>
-                                </div>
+                            <div class="reply-btn" style="margin-left: auto;">
+                                <a href="{% url 'blog-single' comment.blog_post.pk %}#comments-section" class="btn-reply text-uppercase">
+                                    Reply
+                                </a>
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <p>No comments yet!</p>
+                    {% endfor %}
                 </div>
             </div>
         </main>
@@ -188,7 +207,7 @@
                             <div class="row">
                                 <div class="col">
                                     <ul>
-                                        <li><a href="#">Home</a></li>
+                                        <li><a href="{% url 'index' %}">Home</a></li>
                                         <li><a href="#">Feature</a></li>
                                         <li><a href="#">Services</a></li>
                                         <li><a href="#">Portfolio</a></li>
@@ -198,8 +217,8 @@
                                     <ul>
                                         <li><a href="#">Team</a></li>
                                         <li><a href="#">Pricing</a></li>
-                                        <li><a href="#">Blog</a></li>
-                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="{% url 'blog-home' %}">Blog</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -277,8 +296,9 @@
             navBarLinksChilds()
             navBarMovement()
             smoothUp()
+            toggleComments()
 
-            
+
             lazyLoad()
         })
     </script>

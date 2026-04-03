@@ -67,7 +67,7 @@
                                         class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
-                                        <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
+                                        <li><a href="{% url 'add_blog' %}">Add Blog</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-has-children"><a href="{% url 'elements' %}"
@@ -441,34 +441,11 @@
                         </div>
                     </div>
                     <div class="testimonial-area-section-carousel">
-                        <div class="testimonial-slider" id="slider">
-                            {% if carousel_items %}
-                            {% for item in carousel_items %}
-                            <div class="testimonial-card">
-                                <img src="{% if item.user_img %}{{ item.user_img.url }}{% else %}img/user-img/user1.png{% endif %}"
-                                    class="testimonial-card-img">
-                                <div>
-                                    <p class="testimonial-card-text">
-                                        {{ item.message }}
-                                    </p>
-                                    <h4 class="testimonial-card-user-name">{{ item.name }} {{ item.surname }}</h4>
-                                    <div class="testimonial-card-stars">
-                                        {% for i in "12345" %}
-                                        {% if forloop.counter <= item.stars %} ★ {% else %} ☆ {% endif %} {% endfor %}
-                                            </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
+                        <div class="testimonial-slider" id="testimonial-slider"></div>
 
-                            </div>
-                            <div class="testimonial-nav-dots" id="dotContainer">
-                                {% for i in dots_range %}
-                                <div class="testimonial-nav-dot {% if forloop.first %}active{% endif %}"></div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        <div class="testimonial-nav-dots" id="dotContainer"></div>
                     </div>
+                </div>
             </secttion>
             <!-- End Testimonial Area Section -->
 
@@ -513,46 +490,32 @@
                     <div class="recent-blog-section-carusel">
                         <div class="active-recent-blog-carusel">
                             <div class="recent-blog-slider" id="blogSlider">
+                                
+                                {% for post in recent_posts %}
                                 <div class="single-recent-blog-post recent-blog-item">
-                                    <div class="thumb"><img src="{% static 'img/blog-img/b1.jpg' %}"></div>
+                                    <div class="thumb">
+                                        <img src="{{ post.blog_img.url }}" alt="{{ post.title }}">
+                                    </div>
                                     <div class="details">
-                                        <div class="tags"><a href="#">Travel</a><a href="#">Life Style</a></div>
-                                        <h4 class="title">Low Cost Advertising</h4>
-                                        <p>Acres of Diamonds… you’ve read the famous story, or at least had it related
-                                            to you.</p>
-                                        <h6 class="date">31st January, 2018</h6>
+                                        <div class="tags">
+                                            {% for tag in post.tags.all %}
+                                                <a href="{% url 'category-detail' tag.id %}">{{ tag.name }}</a>
+                                            {% endfor %}
+                                        </div>
+                                        
+                                        <a href="{% url 'blog-single' post.pk %}">
+                                            <h4 class="title">{{ post.title }}</h4>
+                                        </a>
+                                        
+                                        <p>{{ post.content|striptags|truncatechars:100 }}</p>
+                                        
+                                        <h6 class="date">{{ post.pub_date|date:"jS F, Y" }}</h6>
                                     </div>
                                 </div>
-                                <div class="single-recent-blog-post recent-blog-item">
-                                    <div class="thumb"><img src="{% static 'img/blog-img/b2.jpg' %}"></div>
-                                    <div class="details">
-                                        <div class="tags"><a href="#">Travel</a><a href="#">Life Style</a></div>
-                                        <h4 class="title">Creative Outdoor Ads</h4>
-                                        <p>Acres of Diamonds… you’ve read the famous story, or at least had it related
-                                            to you.</p>
-                                        <h6 class="date">31st January, 2018</h6>
-                                    </div>
-                                </div>
-                                <div class="single-recent-blog-post recent-blog-item">
-                                    <div class="thumb"><img src="{% static 'img/blog-img/b3.jpg' %}"></div>
-                                    <div class="details">
-                                        <div class="tags"><a href="#">Travel</a><a href="#">Life Style</a></div>
-                                        <h4 class="title">It's Classified How To Utilize Free</h4>
-                                        <p>Acres of Diamonds… you’ve read the famous story, or at least had it related
-                                            to you.</p>
-                                        <h6 class="recent-blog-date">31st January, 2018</h6>
-                                    </div>
-                                </div>
-                                <div class="single-recent-blog-post recent-blog-item">
-                                    <div class="thumb"><img src="{% static 'img/blog-img/b2.jpg' %}"></div>
-                                    <div class="details">
-                                        <div class="tags"><a href="#">Travel</a><a href="#">Life Style</a></div>
-                                        <h4 class="title">Low Cost Advertising</h4>
-                                        <p>Acres of Diamonds… you’ve read the famous story, or at least had it related
-                                            to you.</p>
-                                        <h6 class="date">31st January, 2018</h6>
-                                    </div>
-                                </div>
+                                {% empty %}
+                                <p>No recent posts found.</p>
+                                {% endfor %}
+
                             </div>
 
                             <div class="recent-blog-dots" id="blogDots">
@@ -584,7 +547,7 @@
                             <div class="row">
                                 <div class="col">
                                     <ul>
-                                        <li><a href="#">Home</a></li>
+                                        <li><a href="{% url 'index' %}">Home</a></li>
                                         <li><a href="#">Feature</a></li>
                                         <li><a href="#">Services</a></li>
                                         <li><a href="#">Portfolio</a></li>
@@ -594,8 +557,8 @@
                                     <ul>
                                         <li><a href="#">Team</a></li>
                                         <li><a href="#">Pricing</a></li>
-                                        <li><a href="#">Blog</a></li>
-                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="{% url 'blog-home' %}">Blog</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -633,7 +596,7 @@
                                 <li><img src="{% static 'img/footer-img/i4.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i5.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i6.jpg' %}" alt=""></li>
-                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt=""></li>
+                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt="">
                                 <li><img src="{% static 'img/footer-img/i8.jpg' %}" alt=""></li>
                             </ul>
                         </div>
@@ -672,9 +635,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             navBarLinksChilds()
             navBarMovement()
-            testimonialCarusel()
             recentBlogCarusel()
             smoothUp()
+            loadTestimonials()
 
 
             lazyLoad()

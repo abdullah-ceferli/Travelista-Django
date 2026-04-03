@@ -1,17 +1,13 @@
 import os
-import google.generativeai as genai
+import hashlib
 from django.conf import settings
 from dotenv import load_dotenv
-import base64
-import hashlib
-from cryptography.fernet import Fernet
-from django.conf import settings
+from google import genai  
+from google.genai import types
 
 load_dotenv()
 
-API_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=API_KEY)
-
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def load_bad_words():
     """Reads the bad-words.txt file from the project root."""
@@ -23,17 +19,14 @@ def load_bad_words():
         print("Warning: bad-words.txt not found in project root!")
         return set()
 
-
 BAD_WORDS_SET = load_bad_words()
-
 
 def is_message_appropriate(text):
     if not text or not text.strip():
         return False
 
     lowercase_text = text.lower()
-    clean_text = "".join(char if char.isalnum()
-                         or char.isspace() else " " for char in lowercase_text)
+    clean_text = "".join(char if char.isalnum() or char.isspace() else " " for char in lowercase_text)
     words_in_message = clean_text.split()
 
     for word in words_in_message:
@@ -42,8 +35,6 @@ def is_message_appropriate(text):
             return False
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
-
         prompt = (
             "You are a strict content moderator. "
             "Reply ONLY with 'REJECT' if this message is rude, toxic, "
@@ -52,9 +43,12 @@ def is_message_appropriate(text):
             f"Message: {text}"
         )
 
-        response = model.generate_content(
-            prompt,
-            generation_config={"temperature": 0.0}
+        response = client.models.generate_content(
+            model='gemini-1.5-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.0
+            )
         )
 
         if not response or not response.text:
@@ -67,25 +61,9 @@ def is_message_appropriate(text):
         print(f"AI ERROR: {e}")
         return True
 
-
-def get_cipher():
-    key = hashlib.sha256(settings.SECRET_KEY.encode()).digest()
-    return Fernet(base64.urlsafe_b64encode(key))
-
-
 def encrypt_password(plain_text):
     if not plain_text:
         return None
-    cipher = get_cipher()
-    return cipher.encrypt(plain_text.encode()).decode()
-
-
-def decrypt_password(encrypted_text):
-    if not encrypted_text:
-        return None
-    cipher = get_cipher()
-    try:
-        return cipher.decrypt(encrypted_text.encode()).decode()
-    except Exception:
-        return None
-
+    secret = os.getenv('SECRET_KEY') or settings.SECRET_KEY
+    combined = f"{plain_text}{secret}"
+    return hashlib.sha256(combined.encode()).hexdigest()

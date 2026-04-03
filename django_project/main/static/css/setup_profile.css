@@ -1,0 +1,187 @@
+:root {
+    --primary-red: #ff4d58;
+    --bg-gray: #e9ecef;
+    --text-dark: #333;
+    --input-bg: #f8f9fa;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-gray);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-container {
+    width: 950px;
+    height: 650px;
+    background: white;
+    border-radius: 24px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.image-side {
+    flex: 1.1;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
+        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    color: white;
+}
+
+.image-side h1 {
+    font-size: 48px;
+    margin: 0;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.image-side p {
+    font-size: 18px;
+    margin-top: 15px;
+    opacity: 0.9;
+}
+
+/* Right Side */
+.form-side {
+    flex: 1;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.back-link {
+    text-decoration: none;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+h2 {
+    margin: 0;
+    font-size: 32px;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.row-flex {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+    flex: 1;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #eee;
+    background: var(--input-bg);
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-red);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 77, 88, 0.05);
+}
+
+.optional-label {
+    text-align: center;
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: 1px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.optional-label::before,
+.optional-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+    margin: 0 10px;
+}
+
+.btn-finish {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 77, 88, 0.25);
+    transition: 0.3s;
+}
+
+.btn-finish:hover {
+    background: #e6454f;
+    transform: translateY(-2px);
+}
+
+.profile-upload-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.upload-label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    color: #8898aa;
+}
+
+.upload-label:hover {
+    border-color: #5e72e4;
+    color: #5e72e4;
+    background: #f4f5f7;
+}
+
+.upload-label i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+#profile_img {
+    display: none; 
+}

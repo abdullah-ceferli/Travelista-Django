@@ -1,6 +1,4 @@
-import math
-from pyexpat import model
-
+from django.templatetags.static import static
 from django.db import models
 
 # Create your models here.
@@ -85,24 +83,83 @@ class DestinationsAmenity(models.Model):
 
 
 # user model
-class UserMessage(models.Model):
-    name = models.CharField(max_length=100)
-
+class SignUp(models.Model):
+    username = models.CharField(max_length=100)
     email = models.EmailField(max_length=150)
-
-    subject = models.CharField(max_length=200)
-
-    message = models.TextField()
-
-    check_box = models.BooleanField(default=False)
-
-    user_img = models.ImageField(
-        upload_to='user_images/', null=True, blank=True)
-
-    pub_date = models.DateTimeField('date published', null=True, blank=True)
-
+    password = models.CharField()
+    phone = models.CharField(max_length=20)
+    pub_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    
     ip_address = models.GenericIPAddressField(null=True, blank=True)
 
+    device_type = models.CharField(max_length=50, null=True)     
+    os_family = models.CharField(max_length=50, null=True)    
+    os_version = models.CharField(max_length=50, null=True) 
+    browser_family = models.CharField(max_length=50, null=True) 
+    browser_version = models.CharField(max_length=50, null=True)
+
+    name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
+    
+    about_me = models.TextField(null=True, blank=True) 
+    contact_email = models.EmailField(max_length=150, null=True, blank=True)
+    profile_img = models.ImageField(upload_to='user_images/', default='user-images/default.jpg', null=True, blank=True)
+
+    writer = models.CharField(max_length=100, default="Senior blog writer")
+
+    def __str__(self):
+        return f"{self.username} ({self.email})"
+
+
+class Tag(models.Model): 
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.ForeignKey(SignUp, on_delete=models.CASCADE, related_name='blog_posts')
+    pub_date = models.DateTimeField(auto_now_add=True)
+    blog_img = models.ImageField(upload_to='blog_images/', null=True, blank=True)
+    view_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
+    tags = models.ManyToManyField(Tag, related_name='blog_posts', blank=True)
+    
+    def get_author_name(self):
+        if self.author:
+            return f"{self.author.name} {self.author.last_name or ''}".strip()
+        return f"Guest {self.id}"
+
+    def __str__(self):
+        return self.title
+
+
+class UserMessage(models.Model):
+    blog_post = models.ForeignKey('BlogPost', on_delete=models.CASCADE, related_name='comments')
+    user_profile = models.ForeignKey('SignUp', on_delete=models.CASCADE, related_name='messages', null=True, blank=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=150)
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    check_box = models.BooleanField(default=False)
+    pub_date = models.DateTimeField('date published', auto_now_add=True) 
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    user_img = models.ImageField(upload_to='user_images/', null=True, blank=True)
+
+    @property
+    def get_avatar(self):
+        if self.user_img and hasattr(self.user_img, 'url'):
+            return self.user_img.url
+        if self.user_profile and self.user_profile.profile_img:
+            return self.user_profile.profile_img.url
+        return static('img/user-img/default.jpg')
+    
     def __str__(self):
         return f"{self.name} ({self.email}), Created at - {self.pub_date}"
     
@@ -119,33 +176,16 @@ class UserContact(models.Model):
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
 
+    @property
+    def get_avatar(self):
+        if self.user_img and hasattr(self.user_img, 'url'):
+            try:
+                return self.user_img.url
+            except:
+                return static('img/user-img/default.jpg')
+        return static('img/user-img/default.jpg')
+
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"
     
 
-class SignUp(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField(max_length=150)
-    password = models.CharField(max_length=200)
-    phone = models.CharField(max_length=20)
-    pub_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    
-    ip_address = models.GenericIPAddressField(null=True, blank=True)
-
-    device_type = models.CharField(max_length=50, null=True)     
-    os_family = models.CharField(max_length=50, null=True)    
-    os_version = models.CharField(max_length=50, null=True) 
-    browser_family = models.CharField(max_length=50, null=True) 
-    browser_version = models.CharField(max_length=50, null=True)
-
-    def __str__(self):
-        return f"{self.username} ({self.email})"
-
-class LoginRecord(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField(max_length=150)
-    logintime = models.DateTimeField(auto_now_add=True)
-    ip_address = models.GenericIPAddressField(null=True, blank=True)
-
-    def __str__(self):
-        return self.username

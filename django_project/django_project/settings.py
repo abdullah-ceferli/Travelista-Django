@@ -37,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'main.middleware.ProfileCompletionMiddleware',
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -128,4 +129,11 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ACCOUNT_ADAPTER = 'main.adapters.MyCustomAdapter'

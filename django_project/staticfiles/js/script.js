@@ -61,65 +61,6 @@ function navBarMovement() {
     })
 }
 
-function testimonialCarusel() {
-    const slider = document.getElementById('slider')
-    const dotContainer = document.getElementById('dotContainer')
-    const dots = dotContainer.querySelectorAll('.testimonial-nav-dot')
-    const cards = slider.querySelectorAll('.testimonial-card')
-    let autoSlideInterval
-
-    const totalItems = dots.length;
-
-    function goToSlide(index) {
-        const cardWidth = cards[0].offsetWidth + 20
-        slider.scrollTo({
-            left: cardWidth * index,
-            behavior: 'smooth'
-        });
-        resetAutoSlide()
-    }
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index)
-        })
-    })
-
-    slider.addEventListener('scroll', () => {
-        const cardWidth = cards[0].offsetWidth + 20
-        const scrollPos = slider.scrollLeft
-
-        const activeIndex = Math.round(scrollPos / cardWidth) % totalItems
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === activeIndex)
-        })
-    })
-
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(() => {
-            const cardWidth = cards[0].offsetWidth + 20
-            let currentIndex = Math.round(slider.scrollLeft / cardWidth)
-
-            let nextIndex = (currentIndex + 1) % totalItems
-
-            if (currentIndex >= totalItems) {
-                slider.scrollTo({ left: 0, behavior: 'auto' })
-                nextIndex = 1
-            }
-
-            goToSlide(nextIndex)
-        }, 10000)
-    }
-
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval)
-        startAutoSlide()
-    }
-
-    startAutoSlide()
-}
-
 function recentBlogCarusel() {
     const slider = document.getElementById('blogSlider')
     const dots = document.querySelectorAll('.recent-blog-dot')
@@ -172,4 +113,98 @@ function smoothUp() {
             })
         })
     })
+}
+
+
+async function loadTestimonials() {
+    const slider = document.getElementById('testimonial-slider')
+    const dotContainer = document.getElementById('dotContainer')
+    if (!slider || !dotContainer) return
+
+    try {
+        const response = await fetch('/api/user-contacts/')
+        const data = await response.json()
+        const items = data.results || data
+
+        if (items.length > 0) {
+            let cardsHtml = ''
+            items.forEach(item => {
+                let starsHtml = ''
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += i <= item.stars ? ' ★ ' : ' ☆ '
+                }
+
+                cardsHtml += `
+                <div class="testimonial-card">
+                    <img src="${item.user_img}" class="testimonial-card-img" alt="user">
+                    <div>
+                        <p class="testimonial-card-text">${item.message}</p>
+                        <h4 class="testimonial-card-user-name">${item.name} ${item.surname}</h4>
+                        <div class="testimonial-card-stars">${starsHtml}</div>
+                    </div>
+                </div>`
+            })
+
+            slider.innerHTML = cardsHtml;
+
+            let dotsHtml = ''
+            items.forEach((_, i) => {
+                dotsHtml += `<div class="testimonial-nav-dot ${i === 0 ? 'active' : ''}"></div>`
+            })
+            dotContainer.innerHTML = dotsHtml
+
+            testimonialCarusel()
+
+        } else {
+            slider.innerHTML = '<p>No testimonials available.</p>'
+        }
+    } catch (error) {
+        console.error("Error:", error)
+    }
+}
+
+
+function testimonialCarusel() {
+    const slider = document.getElementById('testimonial-slider')
+    const dotContainer = document.getElementById('dotContainer')
+    if (!slider || !dotContainer) return
+
+    const dots = dotContainer.querySelectorAll('.testimonial-nav-dot')
+    const cards = slider.querySelectorAll('.testimonial-card')
+    if (cards.length === 0) return
+
+    let autoSlideInterval;
+    const totalItems = dots.length
+
+    function goToSlide(index) {
+        const cardWidth = cards[0].offsetWidth + 20
+        slider.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
+        resetAutoSlide()
+    }
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index))
+    })
+
+    slider.addEventListener('scroll', () => {
+        const cardWidth = cards[0].offsetWidth + 20
+        const activeIndex = Math.round(slider.scrollLeft / cardWidth) % totalItems
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === activeIndex))
+    })
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            const cardWidth = cards[0].offsetWidth + 20
+            let currentIndex = Math.round(slider.scrollLeft / cardWidth)
+            let nextIndex = (currentIndex + 1) % totalItems
+            goToSlide(nextIndex)
+        }, 10000)
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval)
+        startAutoSlide()
+    }
+
+    startAutoSlide()
 }

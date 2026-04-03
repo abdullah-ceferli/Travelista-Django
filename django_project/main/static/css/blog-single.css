@@ -357,6 +357,7 @@ h5 {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
+    margin-left: auto;
 }
 
 .posts-list {
@@ -692,11 +693,15 @@ h5 {
 
 .comments-area .thumb {
     margin-right: 20px;
+    width: 60.01px;
+    height: 60.01px;
+    border-radius: 50%;
 }
 
 .comments-area .date {
     font-size: 13px;
     color: #cccccc;
+    margin-bottom: 0.6rem;
 }
 
 .comments-area .comment {
@@ -827,4 +832,20 @@ h5 {
     position: relative;
     margin-top: -30px;
     bottom: 15px;
+}
+
+.comments-area .thumb img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment p {
+    margin-bottom: 0.6rem;
+}
+
+.empty-comment p{
+    display: flex;
+    justify-content: center;
 }

@@ -31,6 +31,8 @@ urlpatterns = [
     path('api/user-contacts/', UserContactListAPI.as_view(), name='user_contacts_api'),
     path('api/hotels/', HotelsListAPI.as_view(), name='hotels_api'),
     path('api/user-messages/', UserMessageListAPI.as_view(), name='user-messages-api'),
+    path('api/user-data/', UserDataListAPI.as_view(), name='user-data-api'),
+    path('api/posts/', BlogPostListAPI.as_view(), name='post-list-api'),
 ]
 
 if not settings.DEBUG:

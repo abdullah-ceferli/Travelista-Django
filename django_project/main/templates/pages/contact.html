@@ -68,7 +68,7 @@
                                         class="sf-with-ul">Blog</a>
                                     <ul>
                                         <li><a href="{% url 'blog-home' %}">Blog Home</a></li>
-                                        <li><a href="{% url 'blog-single' %}">Blog Single</a></li>
+                                        <li><a href="{% url 'add_blog' %}">Add Blog</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-has-children"><a href="{% url 'elements' %}"
@@ -172,9 +172,6 @@
                                         <input name="subject" value="{{ subject }}" placeholder="Enter subject"
                                             class="common-input mb-20 form-control" required type="text">
 
-                                        <input name="user_img" class="common-input mb-20 form-control" required
-                                            type="file" accept="image/*">
-
                                         <label class="label" for="stars">Your Rating:</label>
                                         <select name="stars" class="common-input mb-20 form-control" required>
                                             <option value="5">5 Stars</option>
@@ -220,7 +217,7 @@
                             <div class="row">
                                 <div class="col">
                                     <ul>
-                                        <li><a href="#">Home</a></li>
+                                        <li><a href="{% url 'index' %}">Home</a></li>
                                         <li><a href="#">Feature</a></li>
                                         <li><a href="#">Services</a></li>
                                         <li><a href="#">Portfolio</a></li>
@@ -230,8 +227,8 @@
                                     <ul>
                                         <li><a href="#">Team</a></li>
                                         <li><a href="#">Pricing</a></li>
-                                        <li><a href="#">Blog</a></li>
-                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="{% url 'blog-home' %}">Blog</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -269,7 +266,7 @@
                                 <li><img src="{% static 'img/footer-img/i4.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i5.jpg' %}" alt=""></li>
                                 <li><img src="{% static 'img/footer-img/i6.jpg' %}" alt=""></li>
-                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt=""></li>
+                                <li><img src="{% static 'img/footer-img/i7.jpg' %}" alt="">
                                 <li><img src="{% static 'img/footer-img/i8.jpg' %}" alt=""></li>
                             </ul>
                         </div>
