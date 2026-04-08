@@ -6,8 +6,11 @@ from django.template.response import TemplateResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 
-admin.site.register(Tag)
+admin.site.register(ChatMessage)
 
+admin.site.register(Thread)
+
+admin.site.register(Tag)
 class BlogPostTagInline(admin.TabularInline):
     model = BlogPost.tags.through 
     extra = 1 

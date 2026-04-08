@@ -518,3 +518,8 @@ class CategoryDetailView(ListView):
 
 class ConnectsView(TemplateView):
     template_name = 'pages/connect.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_users'] = SignUp.objects.all() 
+        return context

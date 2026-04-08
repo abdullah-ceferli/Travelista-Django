@@ -33,7 +33,12 @@ urlpatterns = [
     path('api/user-messages/', UserMessageListAPI.as_view(), name='user-messages-api'),
     path('api/user-data/', UserDataListAPI.as_view(), name='user-data-api'),
     path('api/posts/', BlogPostListAPI.as_view(), name='post-list-api'),
+    path('api/get-or-create-thread/<int:target_user_id>/', GetOrCreateThread.as_view(), name='get_thread'),
+    path('api/messages/send/', SendMessageAPI.as_view(), name='send_message'),
+    path('api/messages/<int:thread_id>/', MessageListAPI.as_view(), name='message_list'),
 ]
+
+
 
 if not settings.DEBUG:
     urlpatterns += [

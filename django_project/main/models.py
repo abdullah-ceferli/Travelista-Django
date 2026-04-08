@@ -1,5 +1,6 @@
 from django.templatetags.static import static
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -187,5 +188,19 @@ class UserContact(models.Model):
 
     def __str__(self):
         return f"Name: {self.name}, Email: {self.email}"
+  
     
+class Thread(models.Model):
+    first_person = models.ForeignKey(SignUp, on_delete=models.CASCADE, related_name='thread_first')
+    second_person = models.ForeignKey(SignUp, on_delete=models.CASCADE, related_name='thread_second')
+    last_activity = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = ['first_person', 'second_person']
+
+
+class ChatMessage(models.Model):
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='messages')
+    user = models.ForeignKey(SignUp, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)

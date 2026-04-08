@@ -86,3 +86,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPost
         fields = '__all__'
+
+
+class ChatMessageSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
+
+    class Meta:
+        model = ChatMessage
+        fields = ['id', 'user_id', 'username', 'message', 'timestamp']
