@@ -27,25 +27,35 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # api endpoints
-    path('api/destinations/', DestinationListAPI.as_view(), name='destination-list-api'),
-    path('api/user-contacts/', UserContactListAPI.as_view(), name='user_contacts_api'),
+    path('api/destinations/', DestinationListAPI.as_view(),
+         name='destination-list-api'),
+    path('api/user-contacts/', UserContactListAPI.as_view(),
+         name='user_contacts_api'),
     path('api/hotels/', HotelsListAPI.as_view(), name='hotels_api'),
-    path('api/user-messages/', UserMessageListAPI.as_view(), name='user-messages-api'),
+    path('api/user-messages/', UserMessageListAPI.as_view(),
+         name='user-messages-api'),
     path('api/user-data/', UserDataListAPI.as_view(), name='user-data-api'),
     path('api/posts/', BlogPostListAPI.as_view(), name='post-list-api'),
-    path('api/get-or-create-thread/<int:target_user_id>/', GetOrCreateThread.as_view(), name='get_thread'),
+    path('api/get-or-create-thread/<int:target_user_id>/',
+         GetOrCreateThread.as_view(), name='get_thread'),
     path('api/messages/send/', SendMessageAPI.as_view(), name='send_message'),
-    path('api/messages/<int:thread_id>/', MessageListAPI.as_view(), name='message_list'),
+    path('api/messages/delete/<int:message_id>/',
+         DeleteMessageAPI.as_view(), name='delete_message'),
+    path('api/messages/<int:thread_id>/',
+         MessageListAPI.as_view(), name='message_list'),
 ]
-
 
 
 if not settings.DEBUG:
     urlpatterns += [
-        re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+        re_path(r'^static/(?P<path>.*)$', serve,
+                {'document_root': settings.STATIC_ROOT}),
+        re_path(r'^media/(?P<path>.*)$', serve,
+                {'document_root': settings.MEDIA_ROOT}),
     ]
 
 else:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)

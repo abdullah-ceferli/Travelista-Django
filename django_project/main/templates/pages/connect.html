@@ -110,13 +110,15 @@
                 <div class="sidebar">
                     <div class="sidebar-header">All Users</div>
                     <div style="padding: 10px; background: #fff; border-bottom: 1px solid #ddd;">
-                        <input type="text" id="user-search" placeholder="Search users..." 
+                        <input type="text" id="user-search" placeholder="Search users..."
                             style="width: 100%; padding: 8px; border-radius: 20px; border: 1px solid #ddd; outline: none;">
                     </div>
                     <div id="sidebar-list">
                         {% for person in all_users %}
-                        <div class="user-item" id="user-{{ person.id }}" onclick="openPrivateChat('{{ person.id }}', '{% if person.email == user.email %}Myself (Saved Messages){% else %}{{ person.username }}{% endif %}')">
-                            <img src="{% if person.profile_img %}{{ person.profile_img.url }}{% else %}https://ui-avatars.com/api/?name={{ person.username }}{% endif %}" class="user-avatar">
+                        <div class="user-item" id="user-{{ person.id }}"
+                            onclick="openPrivateChat('{{ person.id }}', '{% if person.email == user.email %}Myself (Saved Messages){% else %}{{ person.username }}{% endif %}')">
+                            <img src="{% if person.profile_img %}{{ person.profile_img.url }}{% else %}https://ui-avatars.com/api/?name={{ person.username }}{% endif %}"
+                                class="user-avatar">
                             <div class="user-info">
                                 <strong>{% if person.email == user.email %}Myself (You){% else %}{{ person.username }}{% endif %}</strong>
                             </div>
@@ -128,7 +130,7 @@
                 <div class="chat-main">
                     <div id="chat-header">Select a person to start chatting</div>
                     <div id="messages-display">
-                        </div>
+                    </div>
                     <div class="input-area">
                         {% csrf_token %}
                         <input type="text" id="message-input" placeholder="Write something..." autocomplete="off">
@@ -226,6 +228,9 @@
             </div>
         </footer>
     </div>
+    <script>
+        window.currentUserId = "{{ request.session.user_id }}";
+    </script>
     <script src="{% static 'js/connect.js' %}"></script>
     <script>
         function lazyLoad() {

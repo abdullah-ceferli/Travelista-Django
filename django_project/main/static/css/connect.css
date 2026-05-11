@@ -122,19 +122,52 @@
     margin-bottom: 10px;
     font-size: 14px;
     position: relative;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    color: #000;
+    word-break: break-word;
 }
 
-.sent {
-    align-self: flex-end; 
-    background: #dcf8c6;
+.bubble.sent {
+    align-self: flex-end !important;
+    background-color: #d4f7c2 !important;
     border-bottom-right-radius: 2px;
+    margin-left: 50px;
 }
 
-.received {
-    align-self: flex-start;
-    background: #ffffff;
+.bubble.received {
+    align-self: flex-start !important;
+    background-color: #ffffff !important;
     border-bottom-left-radius: 2px;
+    margin-right: 50px;
+}
+
+.bubble.deleted {
+    font-style: italic;
+    opacity: 0.85;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: transparent;
+    color: #777;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    color: #d32f2f;
+}
+
+.message-time {
+    display: block;
+    font-size: 10px;
+    color: #555;
+    text-align: right;
+    margin-top: 6px;
 }
 
 .msg-name {
@@ -148,22 +181,23 @@
 #messages-display::-webkit-scrollbar {
     width: 6px;
 }
+
 #messages-display::-webkit-scrollbar-thumb {
     background-color: #bababa;
     border-radius: 10px;
 }
 
 .chat-main {
-    height: 80vh; 
+    height: 80vh;
     display: flex;
     flex-direction: column;
 }
 
 #messages-display {
-    flex: 1;              
-    overflow-y: auto;     
-    display: flex;         
-    flex-direction: column; 
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     background: #e5ddd5;
 }
@@ -171,11 +205,11 @@
 .bubble.sent {
     align-self: flex-end !important;
     background-color: #dcf8c6 !important;
-    margin-left: 50px; 
+    margin-left: 50px;
 }
 
 .bubble.received {
     align-self: flex-start !important;
     background-color: #ffffff !important;
-    margin-right: 50px; 
+    margin-right: 50px;
 }

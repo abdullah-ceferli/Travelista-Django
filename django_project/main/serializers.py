@@ -31,7 +31,7 @@ class UserContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserContact
-        fields = ['id', 'name', 'surname', 'message', 'user_img', 
+        fields = ['id', 'name', 'surname', 'message', 'user_img',
                   'pub_date', 'check_box', 'email', 'subject', 'stars']
 
 
@@ -59,7 +59,7 @@ class UserMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserMessage
-        fields = ['id', 'name', 'message', 'user_img', 'pub_date', 
+        fields = ['id', 'name', 'message', 'user_img', 'pub_date',
                   'ip_address', 'check_box', 'email', 'subject']
 
 
@@ -75,13 +75,16 @@ class UserDataSerializer(serializers.ModelSerializer):
 
 
 class BlogPostSerializer(serializers.ModelSerializer):
-    author_name = serializers.CharField(source='get_author_name', read_only=True)
-    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    author_name = serializers.CharField(
+        source='get_author_name', read_only=True)
+    tags = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field='name')
 
     class ImageUrlSerializer(serializers.ModelSerializer):
         class Meta:
             model = BlogPost
-            fields = ['id', 'title', 'content', 'author_name', 'pub_date', 'blog_img', 'tags', 'view_count']
+            fields = ['id', 'title', 'content', 'author_name',
+                      'pub_date', 'blog_img', 'tags', 'view_count']
 
     class Meta:
         model = BlogPost
@@ -94,4 +97,5 @@ class ChatMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChatMessage
-        fields = ['id', 'user_id', 'username', 'message', 'timestamp']
+        fields = ['id', 'user_id', 'username',
+                  'message', 'timestamp', 'is_deleted']

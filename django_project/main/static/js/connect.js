@@ -48,16 +48,16 @@ let activeThreadId = null
 let chatInterval = null
 let lastMessageCount = 0
 
-const currentUserId = "{{ request.session.user_id }}"
+const currentUserId = window.currentUserId || null
 
 if (Notification.permission !== "granted" && Notification.permission !== "denied") {
     Notification.requestPermission()
 }
 
-document.getElementById('user-search')?.addEventListener('input', function(e) {
+document.getElementById('user-search')?.addEventListener('input', function (e) {
     const term = e.target.value.toLowerCase()
     const users = document.querySelectorAll('.user-item')
-    
+
     users.forEach(user => {
         const name = user.querySelector('strong').innerText.toLowerCase()
         user.style.display = name.includes(term) ? 'flex' : 'none'
@@ -66,7 +66,7 @@ document.getElementById('user-search')?.addEventListener('input', function(e) {
 
 async function openPrivateChat(userId, displayName) {
     document.getElementById('chat-header').innerText = displayName
-    
+
     document.querySelectorAll('.user-item').forEach(i => i.classList.remove('active'))
     document.getElementById('user-' + userId)?.classList.add('active')
 
@@ -81,7 +81,7 @@ async function openPrivateChat(userId, displayName) {
 
         activeThreadId = data.thread_id
         lastMessageCount = 0
-        
+
         await loadMessages()
 
         if (chatInterval) clearInterval(chatInterval)
@@ -99,7 +99,7 @@ async function loadMessages() {
         const res = await fetch(`/api/messages/${activeThreadId}/`)
         const messages = await res.json()
         const display = document.getElementById('messages-display')
-        
+
         const wasAtBottom = display.scrollHeight - display.scrollTop <= display.clientHeight + 100
 
         if (messages.length > lastMessageCount && lastMessageCount !== 0) {
@@ -113,38 +113,93 @@ async function loadMessages() {
         display.innerHTML = ''
         messages.forEach(m => {
             const isMe = String(m.user_id) === String(currentUserId)
+            const isDeleted = m.is_deleted === true
             const type = isMe ? 'sent' : 'received'
-            
+
             const div = document.createElement('div')
-            div.className = `bubble ${type}`
+            div.className = `bubble ${type}${isDeleted ? ' deleted' : ''}`
 
             const nameEl = document.createElement('small')
             nameEl.className = 'message-username'
             nameEl.style.fontWeight = 'bold'
             nameEl.style.display = 'block'
-            nameEl.style.marginBottom = '2px'
-            nameEl.style.fontSize = '10px'
+            nameEl.style.marginBottom = '4px'
+            nameEl.style.fontSize = '11px'
             nameEl.style.color = isMe ? '#2e7d32' : '#555'
             nameEl.innerText = isMe ? 'You' : m.username
 
             const textEl = document.createElement('span')
-            textEl.innerText = m.message
+            textEl.innerText = isDeleted ? 'Message deleted' : m.message
+
+            const timeEl = document.createElement('small')
+            timeEl.className = 'message-time'
+            timeEl.innerText = formatTimestamp(m.timestamp)
 
             div.appendChild(nameEl)
             div.appendChild(textEl)
+            div.appendChild(timeEl)
+
+            if (isMe && !isDeleted) {
+                const deleteBtn = document.createElement('button')
+                deleteBtn.className = 'delete-btn'
+                deleteBtn.type = 'button'
+                deleteBtn.title = 'Delete message'
+                deleteBtn.innerText = 'Delete'
+                deleteBtn.addEventListener('click', async () => {
+                    await deleteMessage(m.id)
+                })
+                div.appendChild(deleteBtn)
+            }
+
             display.appendChild(div)
         })
 
         if (wasAtBottom) {
             display.scrollTop = display.scrollHeight
         }
-    } 
+    }
     catch (e) {
         console.error("Fetch error:", e)
     }
 }
 
-document.getElementById('send-btn').onclick = async function() {
+function formatTimestamp(isoString) {
+    if (!isoString) return ''
+    const date = new Date(isoString)
+    return date.toLocaleString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: 'short'
+    })
+}
+
+async function deleteMessage(messageId) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    try {
+        const response = await fetch(`/api/messages/delete/${messageId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            }
+        })
+
+        if (response.ok) {
+            await loadMessages()
+            const display = document.getElementById('messages-display')
+            display.scrollTop = display.scrollHeight
+        } else {
+            const data = await response.json()
+            console.error('Delete failed:', data.error || response.statusText)
+        }
+    } catch (e) {
+        console.error('Delete error:', e)
+    }
+}
+
+document.getElementById('send-btn').onclick = async function () {
     const input = document.getElementById('message-input')
     const messageText = input.value.trim()
 
@@ -159,13 +214,13 @@ document.getElementById('send-btn').onclick = async function() {
     try {
         const response = await fetch('/api/messages/send/', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json', 
-                'X-CSRFToken': csrftoken 
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
-            body: JSON.stringify({ 
-                thread_id: activeThreadId, 
-                message: messageText 
+            body: JSON.stringify({
+                thread_id: activeThreadId,
+                message: messageText
             })
         })
 
@@ -175,7 +230,7 @@ document.getElementById('send-btn').onclick = async function() {
             const display = document.getElementById('messages-display')
             display.scrollTop = display.scrollHeight
         }
-    } 
+    }
     catch (e) {
         console.error("Send error:", e)
     }
