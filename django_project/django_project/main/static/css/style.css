@@ -549,12 +549,17 @@
     font-size: 12px;
     color: #222;
     text-decoration: none;
-    margin-right: 5px;
 }
 
 .recent-blog-item .tags a:hover {
     background-color: var(--primary-color);
     color: white;
+}
+
+.recent-blog-item .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .recent-blog-item .title {
